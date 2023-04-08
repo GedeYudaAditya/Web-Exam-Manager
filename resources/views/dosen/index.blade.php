@@ -8,7 +8,7 @@
             <div class="flex flex-row justify-center sm:justify-normal">
                 <a href="/test">
                     <button class="button">
-                        Mulai Belajar
+                        Dashboard
                     </button>
                 </a>
             </div>
