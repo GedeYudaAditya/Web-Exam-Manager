@@ -14,7 +14,7 @@ class GuestController extends Controller
     {
         $data = [
             'title' => 'Halaman Utama',
-            'content' => 'Selamat datang di halaman utama'
+            'content' => 'Selamat datang di halaman utama pengunjung, anda dapat login untuk mulai beraktifitas. :D'
         ];
         return view('index', $data);
     }
@@ -37,8 +37,16 @@ class GuestController extends Controller
             return redirect()->intended('/');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        return back()->with('error', 'Pastikan akun dan password dimasukkan dengan benar!',);
+    }
+
+    /**
+     * @kegunaan
+     * Melakukan proses logout
+     */
+    public function logout()
+    {
+        auth()->logout();
+        return redirect()->route('landing-page');
     }
 }

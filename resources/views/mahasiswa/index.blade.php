@@ -17,4 +17,13 @@
             <img width="600" src="{{ asset('images/test.png') }}" alt="">
         </div>
     </div>
+
+    <script>
+        Swal.fire({
+            title: 'Selamat Datang {{ auth()->user()->name }}!',
+            text: "{{ $content }}",
+            icon: 'info',
+            confirmButtonText: 'Oke'
+        })
+    </script>
 @endsection

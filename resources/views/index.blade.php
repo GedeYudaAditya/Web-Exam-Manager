@@ -30,7 +30,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/login" method="POST">
+                <form action="{{ route('login') }}" method="POST">
                     @csrf
                     <div class="mb-5">
                         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
@@ -56,6 +56,26 @@
             </div>
         </div>
     </div>
+
+    <script>
+        Swal.fire({
+            title: 'Selamat Datang!',
+            text: "{{ $content }}",
+            icon: 'info',
+            confirmButtonText: 'Oke'
+        })
+    </script>
+
+    @if (session()->has('error'))
+        <script>
+            Swal.fire({
+                title: 'Pastikan akun anda benar!',
+                text: "{{ session()->get('error') }}",
+                icon: 'warning',
+                confirmButtonText: 'Oke'
+            })
+        </script>
+    @endif
 
     {{-- Script Modal --}}
     <script>

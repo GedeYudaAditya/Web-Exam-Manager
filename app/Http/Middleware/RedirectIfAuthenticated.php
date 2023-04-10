@@ -21,7 +21,14 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                $user = Auth::user();
+                if ($user->role === 'mahasiswa') {
+                    return redirect()->route('mahasiswa.index');
+                } elseif ($user->role === 'dosen') {
+                    return redirect()->route('dosen.index');
+                } else {
+                    return redirect(RouteServiceProvider::HOME);
+                }
             }
         }
 

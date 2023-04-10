@@ -12,6 +12,10 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        return view('mahasiswa.index');
+        $data = [
+            'title' => 'Halaman Mahasiswa',
+            'content' => 'Selamat datang di halaman utama mahasiswa, belajarlah dengan tekun :)'
+        ];
+        return view('mahasiswa.index', $data);
     }
 }
