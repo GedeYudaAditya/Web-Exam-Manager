@@ -22,7 +22,19 @@ Route::post('/logout', [GuestController::class, 'logout'])->middleware('auth')->
 
 Route::group(['middleware' => ['role.mahasiswa']], function () {
     Route::prefix('mahasiswa')->group(function () {
+        // Route Home Mahasiswa
         Route::get('/', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
+
+        // Menu Media
+        Route::prefix('media')->group(function () {
+            Route::get('/', [MahasiswaController::class, 'media'])->name('mahasiswa.media');
+
+            Route::get('/video', [MahasiswaController::class, 'video'])->name('mahasiswa.media.video');
+            Route::get('/video/{id}', [MahasiswaController::class, 'detailVideo'])->name('mahasiswa.media.video.detail');
+
+            Route::get('/anatomy_3d', [MahasiswaController::class, 'anatomy3d'])->name('mahasiswa.media.anatomy3d');
+            Route::get('/anatomy_3d/{id}', [MahasiswaController::class, 'detailAnatomy3d'])->name('mahasiswa.media.anatomy3d.detail');
+        });
     });
 });
 

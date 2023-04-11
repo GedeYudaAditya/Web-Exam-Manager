@@ -40,14 +40,14 @@
                     @if (Auth::check())
                         @if (Auth::user()->role == 'mahasiswa')
                             <li class="link-nav {{ Route::is('mahasiswa.media') ? 'link-nav-active' : '' }}"><a
-                                    href="/about">Media</a></li>
+                                    href="{{ route('mahasiswa.media') }}">Media</a></li>
                             <li class="link-nav {{ Route::is('mahasiswa.page') ? 'link-nav-active' : '' }}"><a
-                                    href="/contact">Test</a></li>
+                                    href="/test">Test</a></li>
                         @elseif(Auth::user()->role == 'dosen')
                             <li class=" text-center link-nav {{ Route::is('dosen.media') ? 'link-nav-active' : '' }}"><a
-                                    href="/about">M.Media</a></li>
+                                    href="/manajemen_media">M.Media</a></li>
                             <li class=" text-center link-nav {{ Route::is('dosen.page') ? 'link-nav-active' : '' }}"><a
-                                    href="/contact">M.Test</a></li>
+                                    href="/manajemen_test">M.Test</a></li>
                         @endif
                     @else
                         <li class="link-nav {{ Route::is('about') ? 'link-nav-active' : '' }}"><a
@@ -75,7 +75,7 @@
             </nav>
         </header>
 
-        <main class="w-full h-screen flex flex-row justify-center items-center">
+        <main class="w-full h-screen overflow-y-scroll flex flex-row justify-center items-center">
             <div class="w-3/4">
                 @yield('content')
             </div>
