@@ -6,6 +6,10 @@
     @apply bg-indigo-600 hover:animate-pulse text-white font-bold py-1 px-6 rounded hover:bg-indigo-700;
 }
 
+.button-secondary {
+    @apply bg-gray-600 hover:animate-pulse text-white font-bold py-1 px-6 rounded hover:bg-gray-700;
+}
+
 .link-nav {
     @apply hover:border-b-4 hover:border-indigo-500 transition-all duration-300 ease-in-out;
 }

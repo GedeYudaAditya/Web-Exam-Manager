@@ -14,7 +14,11 @@
             </div>
         </div>
         <div class="container">
-            <img width="600" src="{{ asset('images/test.png') }}" alt="">
+            {{-- <img width="600" src="{{ asset('images/test.png') }}" alt=""> --}}
+            <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_ikvz7qhc.json" background="transparent"
+                speed="1" class="img-fluid w-100 px-lg-5" class="w-full" loop autoplay>
+            </lottie-player>
+            <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
         </div>
     </div>
 

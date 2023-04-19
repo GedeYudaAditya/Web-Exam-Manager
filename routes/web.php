@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [GuestController::class, 'index'])->middleware('guest')->name('landing-page');
 Route::post('/login', [GuestController::class, 'login'])->middleware('guest')->name('login');
 Route::post('/logout', [GuestController::class, 'logout'])->middleware('auth')->name('logout');
+Route::post('/register', [GuestController::class, 'register'])->middleware('guest')->name('register');
 
 Route::group(['middleware' => ['role.mahasiswa']], function () {
     Route::prefix('mahasiswa')->group(function () {

@@ -24,7 +24,7 @@
 
 <body>
     <div class="background h-full">
-        <header class="w-full flex flex-row justify-between p-5 fixed">
+        <header class="w-full flex flex-row justify-between p-5 fixed z-[1000]">
             <div class="logo">
                 <a href="/">
                     <img class="w-12" src="/images/logo.png" alt="Logo">
