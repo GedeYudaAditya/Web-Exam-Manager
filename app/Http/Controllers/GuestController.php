@@ -64,8 +64,13 @@ class GuestController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (auth()->attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended('/');
+            if (auth()->user()->status == 'aktif') {
+                $request->session()->regenerate();
+                return redirect()->intended('/');
+            } else {
+                auth()->logout();
+                return back()->with('error', 'Akun anda belum aktif, silahkan hubungi dosen untuk mengaktifkan akun anda!',);
+            }
         }
 
         return back()->with('error', 'Pastikan akun dan password dimasukkan dengan benar!',);

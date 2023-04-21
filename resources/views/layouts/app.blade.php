@@ -20,9 +20,16 @@
 
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    @livewireStyles
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 
 <body>
+    {{-- <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style> --}}
     <div class="background h-full">
         <header class="w-full flex flex-row justify-between p-5 fixed z-[1000]">
             <div class="logo">
@@ -41,13 +48,13 @@
                         @if (Auth::user()->role == 'mahasiswa')
                             <li class="link-nav {{ Route::is('mahasiswa.media') ? 'link-nav-active' : '' }}"><a
                                     href="{{ route('mahasiswa.media') }}">Media</a></li>
-                            <li class="link-nav {{ Route::is('mahasiswa.page') ? 'link-nav-active' : '' }}"><a
-                                    href="/test">Test</a></li>
+                            <li class="link-nav {{ Route::is('mahasiswa.test') ? 'link-nav-active' : '' }}"><a
+                                    href="{{ route('mahasiswa.test') }}">Test</a></li>
                         @elseif(Auth::user()->role == 'dosen')
                             <li class=" text-center link-nav {{ Route::is('dosen.media') ? 'link-nav-active' : '' }}"><a
-                                    href="/manajemen_media">M.Media</a></li>
-                            <li class=" text-center link-nav {{ Route::is('dosen.page') ? 'link-nav-active' : '' }}"><a
-                                    href="/manajemen_test">M.Test</a></li>
+                                    href="{{ route('dosen.media') }}">M.Media</a></li>
+                            <li class=" text-center link-nav {{ Route::is('dosen.test') ? 'link-nav-active' : '' }}"><a
+                                    href="{{ route('dosen.test') }}">M.Test</a></li>
                         @endif
                     @else
                         <li class="link-nav {{ Route::is('about') ? 'link-nav-active' : '' }}"><a
@@ -75,11 +82,30 @@
             </nav>
         </header>
 
-        <main class="w-full h-screen overflow-y-scroll flex flex-row justify-center items-center">
-            <div class="w-3/4">
+        <main class="w-full flex flex-row justify-center items-center overflow-y-auto overflow-x-hidden">
+            <div class="w-10/12">
                 @yield('content')
             </div>
         </main>
+        @if (session()->has('error'))
+            <script>
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: "{{ session()->get('error') }}",
+                    icon: 'warning',
+                    confirmButtonText: 'Oke'
+                })
+            </script>
+        @elseif(session()->has('success'))
+            <script>
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: "{{ session()->get('success') }}",
+                    icon: 'success',
+                    confirmButtonText: 'Oke'
+                })
+            </script>
+        @endif
     </div>
     @vite('resources/js/app.js')
     <script>
@@ -108,6 +134,7 @@
             }
         });
     </script>
+    @livewireScripts
 </body>
 
 </html>

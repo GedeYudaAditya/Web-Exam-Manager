@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Siswa User',
             'email' => 'mahasiswa@sistem.com',
             'role' => 'mahasiswa',
+            'nim' => '1234567890',
+            'status' => 'aktif',
             'password' => bcrypt('password')
         ]);
 
@@ -27,6 +29,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Dosen User',
             'email' => 'dosen@sistem.com',
             'role' => 'dosen',
+            'status' => 'aktif',
             'password' => bcrypt('password')
         ]);
     }

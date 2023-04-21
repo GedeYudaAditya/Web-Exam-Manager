@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->enum('role', ['mahasiswa', 'dosen'])->default('mahasiswa');
             $table->string('nim')->nullable();
+            $table->enum('status', ['aktif', 'nonaktif'])->default('nonaktif');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

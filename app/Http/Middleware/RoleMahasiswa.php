@@ -17,7 +17,7 @@ class RoleMahasiswa
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();
-        if ($user->role == 'mahasiswa' && Auth::check()) {
+        if ($user->role == 'mahasiswa' && Auth::check() && Auth::user()->status == 'aktif') {
             return $next($request);
         } else {
             return redirect()->route('landing-page');

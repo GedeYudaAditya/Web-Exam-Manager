@@ -25,6 +25,7 @@ class MahasiswaController extends Controller
      */
     public function media()
     {
+        // dd('it works');
         $data = [
             'title' => 'Media'
         ];
@@ -62,6 +63,10 @@ class MahasiswaController extends Controller
      */
     public function anatomy3d()
     {
+        $data = [
+            'title' => 'Anatomy 3D'
+        ];
+        return view('mahasiswa.anatomy3d.anatomy3d', $data);
     }
 
     /**

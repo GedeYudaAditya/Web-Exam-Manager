@@ -36,11 +36,29 @@ Route::group(['middleware' => ['role.mahasiswa']], function () {
             Route::get('/anatomy_3d', [MahasiswaController::class, 'anatomy3d'])->name('mahasiswa.media.anatomy3d');
             Route::get('/anatomy_3d/{id}', [MahasiswaController::class, 'detailAnatomy3d'])->name('mahasiswa.media.anatomy3d.detail');
         });
+
+        // Menu Test
+        Route::prefix('test')->group(function () {
+            Route::get('/', [MahasiswaController::class, 'test'])->name('mahasiswa.test');
+        });
     });
 });
 
 Route::group(['middleware' => ['role.dosen']], function () {
     Route::prefix('dosen')->group(function () {
         Route::get('/', [DosenController::class, 'index'])->name('dosen.index');
+
+        Route::prefix('manajemen-media')->group(function () {
+            Route::get('/', [DosenController::class, 'media'])->name('dosen.media');
+        });
+
+        Route::prefix('manajemen-test')->group(function () {
+            Route::get('/', [DosenController::class, 'test'])->name('dosen.test');
+
+            // Acc and Dec User
+            Route::get('/acc/{user:id}', [DosenController::class, 'accUser'])->name('dosen.test.user.acc');
+            Route::get('/dec/{user:id}', [DosenController::class, 'decUser'])->name('dosen.test.user.dec');
+            Route::get('/del/{user:id}', [DosenController::class, 'delUser'])->name('dosen.test.user.del');
+        });
     });
 });

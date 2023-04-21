@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-64">
+    <div class="container mt-20">
         <h3 class="text-center font-bold text-2xl mb-5">List Video Pembelajaran</h3>
 
         <div class="container rounded shadow-md p-10 mb-10 bg-white">

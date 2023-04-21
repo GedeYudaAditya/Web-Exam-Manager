@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex flex-col-reverse sm:flex-row items-center">
+    <div class="flex flex-col-reverse sm:flex-row items-center h-screen">
         <div class="container">
             <h1 class="text-center font-bold text-4xl mb-5 sm:mb-10 sm:text-start">Anatomi Fisiologi <br> Manusia</h1>
             {{-- Button Mulai --}}
@@ -129,7 +129,7 @@
         })
     </script>
 
-    @if (session()->has('error'))
+    {{-- @if (session()->has('error'))
         <script>
             Swal.fire({
                 title: 'Gagal!',
@@ -147,7 +147,7 @@
                 confirmButtonText: 'Oke'
             })
         </script>
-    @endif
+    @endif --}}
 
     {{-- Script Modal --}}
     <script>

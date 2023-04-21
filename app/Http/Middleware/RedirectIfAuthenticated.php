@@ -22,9 +22,9 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 $user = Auth::user();
-                if ($user->role === 'mahasiswa') {
+                if ($user->role === 'mahasiswa' && $user->status === 'aktif') {
                     return redirect()->route('mahasiswa.index');
-                } elseif ($user->role === 'dosen') {
+                } elseif ($user->role === 'dosen' && $user->status === 'aktif') {
                     return redirect()->route('dosen.index');
                 } else {
                     return redirect(RouteServiceProvider::HOME);
