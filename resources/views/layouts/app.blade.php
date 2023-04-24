@@ -18,6 +18,9 @@
     {{-- Sweet Alert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    {{-- jQuery --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     @livewireStyles
@@ -135,6 +138,8 @@
         });
     </script>
     @livewireScripts
+
+    @yield('other_js')
 </body>
 
 </html>

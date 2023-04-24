@@ -41,6 +41,21 @@ Route::group(['middleware' => ['role.mahasiswa']], function () {
         // Menu Test
         Route::prefix('test')->group(function () {
             Route::get('/', [MahasiswaController::class, 'test'])->name('mahasiswa.test');
+
+            Route::prefix('paru-paru-test')->group(function () {
+                Route::get('/', [MahasiswaController::class, 'paruParuTest'])->name('mahasiswa.test.paru-paru');
+                Route::get('/soal/{test:slug}', [MahasiswaController::class, 'paruParuTestSoal'])->name('mahasiswa.test.paru-paru.soal');
+            });
+
+            Route::prefix('ginjal-test')->group(function () {
+                Route::get('/', [MahasiswaController::class, 'ginjalTest'])->name('mahasiswa.test.ginjal');
+                Route::get('/soal/{test:slug}', [MahasiswaController::class, 'ginjalTestSoal'])->name('mahasiswa.test.ginjal.soal');
+            });
+
+            Route::prefix('reproduksi-test')->group(function () {
+                Route::get('/', [MahasiswaController::class, 'reproduksiTest'])->name('mahasiswa.test.reproduksi');
+                Route::get('/soal/{test:slug}', [MahasiswaController::class, 'reproduksiTestSoal'])->name('mahasiswa.test.reproduksi.soal');
+            });
         });
     });
 });
@@ -63,6 +78,7 @@ Route::group(['middleware' => ['role.dosen']], function () {
                 Route::get('/edit/{test:slug}', [DosenController::class, 'editParuParuTest'])->name('dosen.test.paru-paru.edit');
                 Route::post('/edit/{test:slug}', [TestController::class, 'updateParuParuTest'])->name('dosen.test.paru-paru.update');
                 Route::get('/delete/{test:slug}', [TestController::class, 'deleteParuParuTest'])->name('dosen.test.paru-paru.delete');
+                Route::get('/update-status/{test:slug}', [TestController::class, 'updateStatusParuParuTest'])->name('dosen.test.paru-paru.update-status');
 
                 Route::prefix('soal/{test:slug}')->group(function () {
                     Route::get('/', [DosenController::class, 'paruParuSoal'])->name('dosen.test.paru-paru.soal');
@@ -81,6 +97,7 @@ Route::group(['middleware' => ['role.dosen']], function () {
                 Route::get('/edit/{test:slug}', [DosenController::class, 'editGinjalTest'])->name('dosen.test.ginjal.edit');
                 Route::post('/edit/{test:slug}', [TestController::class, 'updateGinjalTest'])->name('dosen.test.ginjal.update');
                 Route::get('/delete/{test:slug}', [TestController::class, 'deleteGinjalTest'])->name('dosen.test.ginjal.delete');
+                Route::get('/update-status/{test:slug}', [TestController::class, 'updateStatusGinjalTest'])->name('dosen.test.ginjal.update-status');
 
                 Route::prefix('soal/{test:slug}')->group(function () {
                     Route::get('/', [DosenController::class, 'ginjalSoal'])->name('dosen.test.ginjal.soal');
@@ -99,6 +116,7 @@ Route::group(['middleware' => ['role.dosen']], function () {
                 Route::get('/edit/{test:slug}', [DosenController::class, 'editReproduksiTest'])->name('dosen.test.reproduksi.edit');
                 Route::post('/edit/{test:slug}', [TestController::class, 'updateReproduksiTest'])->name('dosen.test.reproduksi.update');
                 Route::get('/delete/{test:slug}', [TestController::class, 'deleteReproduksiTest'])->name('dosen.test.reproduksi.delete');
+                Route::get('/update-status/{test:slug}', [TestController::class, 'updateStatusReproduksiTest'])->name('dosen.test.reproduksi.update-status');
 
                 Route::prefix('soal/{test:slug}')->group(function () {
                     Route::get('/', [DosenController::class, 'reproduksiSoal'])->name('dosen.test.reproduksi.soal');

@@ -355,4 +355,39 @@ class DosenController extends Controller
 
         return view('dosen.test.soal.index', $data);
     }
+
+    /**
+     * @kegunaan
+     * Mengarahkan ke page untuk membuat soal test reproduksi
+     */
+    public function createReproduksiSoal(Test $test)
+    {
+        $data = [
+            'title' => 'Reproduksi Test',
+            'jenis' => 'Reproduksi',
+            'route_store' => route('dosen.test.reproduksi.soal.store', $test->slug),
+            'route_back' => route('dosen.test.reproduksi.soal', $test->slug),
+            'test' => $test
+        ];
+
+        return view('dosen.test.soal.create', $data);
+    }
+
+    /**
+     * @kegunaan
+     * Mengarahkan ke page untuk mengedit soal test reproduksi
+     */
+    public function editReproduksiSoal(Test $test, Question $question)
+    {
+        $data = [
+            'title' => 'Reproduksi Test',
+            'jenis' => 'Reproduksi',
+            'route_update' => route('dosen.test.reproduksi.soal.update', [$test->slug, $question->slug]),
+            'route_back' => route('dosen.test.reproduksi.soal', $test->slug),
+            'test' => $test,
+            'soal' => $question
+        ];
+
+        return view('dosen.test.soal.edit', $data);
+    }
 }

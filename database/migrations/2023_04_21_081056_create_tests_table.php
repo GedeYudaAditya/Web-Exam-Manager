@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('category', ['paru', 'ginjal', 'reproduksi']);
             $table->float('passing_score')->default(0);
             $table->integer('duration')->default(0);
+            $table->enum('status', ['draft', 'published'])->default('draft');
             $table->timestamps();
         });
     }

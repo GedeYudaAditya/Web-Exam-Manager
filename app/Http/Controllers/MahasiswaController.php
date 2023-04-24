@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Test;
 use Illuminate\Http\Request;
 
 class MahasiswaController extends Controller
@@ -83,5 +84,34 @@ class MahasiswaController extends Controller
      */
     public function test()
     {
+        $data = [
+            'title' => 'Test'
+        ];
+        return view('mahasiswa.test', $data);
+    }
+
+    /**
+     * @kegunaan
+     * Menampilkan test untuk paru-paru
+     */
+    public function paruParuTest()
+    {
+        $data = [
+            'title' => 'Test Paru-paru',
+            'jenis' => 'Paru-paru'
+        ];
+        return view('mahasiswa.test.index', $data);
+    }
+
+    public function paruParuTestSoal(Test $test)
+    {
+        $data = [
+            'title' => 'Test Paru-paru',
+            'jenis' => 'Paru-paru',
+            'test' => $test,
+            'soals' => $test->questions->shuffle(),
+            'route_back' => route('mahasiswa.test.paru-paru')
+        ];
+        return view('mahasiswa.test.soal.index', $data);
     }
 }

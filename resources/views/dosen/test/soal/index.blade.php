@@ -30,7 +30,8 @@
                             <h4 class="font-bold">Score: {{ $soal->score }}</h4>
                         </div>
                         <div class="flex flex-row mb-3 text-white p-1">
-                            <h4 class="font-bold">Correct Answer {{ Str::upper($soal->correct_answer) }}</h4>
+                            <h4 class="font-bold">Correct Answer
+                                {{ $soal->correct_answer ? Str::upper($soal->correct_answer) : 'Not Included' }}</h4>
                         </div>
                         <form action="{{ route($route_delete, [$test->slug, $soal->slug]) }}" method="POST">
                             @csrf
@@ -47,56 +48,65 @@
                         <div class="container">
                             <div style="margin-left: 30px; margin-right: 30px;">
                                 {{-- bentuk table --}}
-                                <table>
-                                    <tr>
-                                        <td
-                                            class="flex flex-row items-start {{ $soal->correct_answer == 'a' ? 'text-green-300' : '' }}">
-                                            <h4 class="font-bold">A. </span></h4>
-                                        </td>
-                                        <td class="{{ $soal->correct_answer == 'a' ? 'text-green-300 font-bold' : '' }}">
-                                            {{ $soal->option_a }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            class="flex flex-row items-start {{ $soal->correct_answer == 'b' ? 'text-green-300' : '' }}">
-                                            <h4 class="font-bold">B. </span></h4>
-                                        </td>
-                                        <td class="{{ $soal->correct_answer == 'b' ? 'text-green-300 font-bold' : '' }}">
-                                            {{ $soal->option_b }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            class="flex flex-row items-start {{ $soal->correct_answer == 'c' ? 'text-green-300' : '' }}">
-                                            <h4 class="font-bold">C. </span></h4>
-                                        </td>
-                                        <td class="{{ $soal->correct_answer == 'c' ? 'text-green-300 font-bold' : '' }}">
-                                            {{ $soal->option_c }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td
-                                            class="flex flex-row items-start {{ $soal->correct_answer == 'd' ? 'text-green-300' : '' }}">
-                                            <h4 class="font-bold">D. </span></h4>
-                                        </td>
-                                        <td class="{{ $soal->correct_answer == 'd' ? 'text-green-300 font-bold' : '' }}">
-                                            {{ $soal->option_d }}
-                                        </td>
-                                    </tr>
-                                    @if ($soal->option_e)
+                                @if ($soal->type != 'essay')
+                                    <table>
                                         <tr>
                                             <td
-                                                class="flex flex-row items-start {{ $soal->correct_answer == 'e' ? 'text-green-300' : '' }}">
-                                                <h4 class="font-bold">E. </span></h4>
+                                                class="flex flex-row items-start {{ $soal->correct_answer == 'a' ? 'text-green-300' : '' }}">
+                                                <h4 class="font-bold">A. </span></h4>
                                             </td>
                                             <td
-                                                class="{{ $soal->correct_answer == 'e' ? 'text-green-300 font-bold' : '' }}">
-                                                {{ $soal->option_e }}
+                                                class="{{ $soal->correct_answer == 'a' ? 'text-green-300 font-bold' : '' }}">
+                                                {{ $soal->option_a }}
                                             </td>
                                         </tr>
-                                    @endif
-                                </table>
+                                        <tr>
+                                            <td
+                                                class="flex flex-row items-start {{ $soal->correct_answer == 'b' ? 'text-green-300' : '' }}">
+                                                <h4 class="font-bold">B. </span></h4>
+                                            </td>
+                                            <td
+                                                class="{{ $soal->correct_answer == 'b' ? 'text-green-300 font-bold' : '' }}">
+                                                {{ $soal->option_b }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td
+                                                class="flex flex-row items-start {{ $soal->correct_answer == 'c' ? 'text-green-300' : '' }}">
+                                                <h4 class="font-bold">C. </span></h4>
+                                            </td>
+                                            <td
+                                                class="{{ $soal->correct_answer == 'c' ? 'text-green-300 font-bold' : '' }}">
+                                                {{ $soal->option_c }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td
+                                                class="flex flex-row items-start {{ $soal->correct_answer == 'd' ? 'text-green-300' : '' }}">
+                                                <h4 class="font-bold">D. </span></h4>
+                                            </td>
+                                            <td
+                                                class="{{ $soal->correct_answer == 'd' ? 'text-green-300 font-bold' : '' }}">
+                                                {{ $soal->option_d }}
+                                            </td>
+                                        </tr>
+                                        @if ($soal->option_e)
+                                            <tr>
+                                                <td
+                                                    class="flex flex-row items-start {{ $soal->correct_answer == 'e' ? 'text-green-300' : '' }}">
+                                                    <h4 class="font-bold">E. </span></h4>
+                                                </td>
+                                                <td
+                                                    class="{{ $soal->correct_answer == 'e' ? 'text-green-300 font-bold' : '' }}">
+                                                    {{ $soal->option_e }}
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    </table>
+                                @else
+                                    <p>Soal Essay. Jawaban Akan <span class="text-green-300 font-bold">Ditulis</span> Oleh
+                                        Peserta</p>
+                                @endif
                             </div>
                         </div>
                     </div>
