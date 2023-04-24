@@ -3,6 +3,7 @@
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,6 +55,60 @@ Route::group(['middleware' => ['role.dosen']], function () {
 
         Route::prefix('manajemen-test')->group(function () {
             Route::get('/', [DosenController::class, 'test'])->name('dosen.test');
+
+            Route::prefix('paru-paru-test')->group(function () {
+                Route::get('/', [DosenController::class, 'paruParuTest'])->name('dosen.test.paru-paru');
+                Route::get('/create', [DosenController::class, 'createParuParuTest'])->name('dosen.test.paru-paru.create');
+                Route::post('/create', [TestController::class, 'storeParuParuTest'])->name('dosen.test.paru-paru.store');
+                Route::get('/edit/{test:slug}', [DosenController::class, 'editParuParuTest'])->name('dosen.test.paru-paru.edit');
+                Route::post('/edit/{test:slug}', [TestController::class, 'updateParuParuTest'])->name('dosen.test.paru-paru.update');
+                Route::get('/delete/{test:slug}', [TestController::class, 'deleteParuParuTest'])->name('dosen.test.paru-paru.delete');
+
+                Route::prefix('soal/{test:slug}')->group(function () {
+                    Route::get('/', [DosenController::class, 'paruParuSoal'])->name('dosen.test.paru-paru.soal');
+                    Route::get('/create', [DosenController::class, 'createParuParuSoal'])->name('dosen.test.paru-paru.soal.create');
+                    Route::post('/create', [TestController::class, 'storeParuParuSoal'])->name('dosen.test.paru-paru.soal.store');
+                    Route::get('/edit/{question:slug}', [DosenController::class, 'editParuParuSoal'])->name('dosen.test.paru-paru.soal.edit');
+                    Route::post('/edit/{question:slug}', [TestController::class, 'updateParuParuSoal'])->name('dosen.test.paru-paru.soal.update');
+                    Route::delete('/delete/{question:slug}', [TestController::class, 'deleteParuParuSoal'])->name('dosen.test.paru-paru.soal.delete');
+                });
+            });
+
+            Route::prefix('ginjal-test')->group(function () {
+                Route::get('/', [DosenController::class, 'ginjalTest'])->name('dosen.test.ginjal');
+                Route::get('/create', [DosenController::class, 'createGinjalTest'])->name('dosen.test.ginjal.create');
+                Route::post('/create', [TestController::class, 'storeGinjalTest'])->name('dosen.test.ginjal.store');
+                Route::get('/edit/{test:slug}', [DosenController::class, 'editGinjalTest'])->name('dosen.test.ginjal.edit');
+                Route::post('/edit/{test:slug}', [TestController::class, 'updateGinjalTest'])->name('dosen.test.ginjal.update');
+                Route::get('/delete/{test:slug}', [TestController::class, 'deleteGinjalTest'])->name('dosen.test.ginjal.delete');
+
+                Route::prefix('soal/{test:slug}')->group(function () {
+                    Route::get('/', [DosenController::class, 'ginjalSoal'])->name('dosen.test.ginjal.soal');
+                    Route::get('/create', [DosenController::class, 'createGinjalSoal'])->name('dosen.test.ginjal.soal.create');
+                    Route::post('/create', [TestController::class, 'storeGinjalSoal'])->name('dosen.test.ginjal.soal.store');
+                    Route::get('/edit/{question:slug}', [DosenController::class, 'editGinjalSoal'])->name('dosen.test.ginjal.soal.edit');
+                    Route::post('/edit/{question:slug}', [TestController::class, 'updateGinjalSoal'])->name('dosen.test.ginjal.soal.update');
+                    Route::delete('/delete/{question:slug}', [TestController::class, 'deleteGinjalSoal'])->name('dosen.test.ginjal.soal.delete');
+                });
+            });
+
+            Route::prefix('reproduksi-test')->group(function () {
+                Route::get('/', [DosenController::class, 'reproduksiTest'])->name('dosen.test.reproduksi');
+                Route::get('/create', [DosenController::class, 'createReproduksiTest'])->name('dosen.test.reproduksi.create');
+                Route::post('/create', [TestController::class, 'storeReproduksiTest'])->name('dosen.test.reproduksi.store');
+                Route::get('/edit/{test:slug}', [DosenController::class, 'editReproduksiTest'])->name('dosen.test.reproduksi.edit');
+                Route::post('/edit/{test:slug}', [TestController::class, 'updateReproduksiTest'])->name('dosen.test.reproduksi.update');
+                Route::get('/delete/{test:slug}', [TestController::class, 'deleteReproduksiTest'])->name('dosen.test.reproduksi.delete');
+
+                Route::prefix('soal/{test:slug}')->group(function () {
+                    Route::get('/', [DosenController::class, 'reproduksiSoal'])->name('dosen.test.reproduksi.soal');
+                    Route::get('/create', [DosenController::class, 'createReproduksiSoal'])->name('dosen.test.reproduksi.soal.create');
+                    Route::post('/create', [TestController::class, 'storeReproduksiSoal'])->name('dosen.test.reproduksi.soal.store');
+                    Route::get('/edit/{question:slug}', [DosenController::class, 'editReproduksiSoal'])->name('dosen.test.reproduksi.soal.edit');
+                    Route::post('/edit/{question:slug}', [TestController::class, 'updateReproduksiSoal'])->name('dosen.test.reproduksi.soal.update');
+                    Route::delete('/delete/{question:slug}', [TestController::class, 'deleteReproduksiSoal'])->name('dosen.test.reproduksi.soal.delete');
+                });
+            });
 
             // Acc and Dec User
             Route::get('/acc/{user:id}', [DosenController::class, 'accUser'])->name('dosen.test.user.acc');

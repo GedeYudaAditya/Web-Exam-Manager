@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('category', ['paru', 'ginjal', 'reproduksi']);
             $table->float('passing_score')->default(0);
             $table->integer('duration')->default(0);
-            $table->$table->timestamps();
+            $table->timestamps();
         });
     }
 

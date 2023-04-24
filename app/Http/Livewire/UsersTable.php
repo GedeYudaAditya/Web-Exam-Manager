@@ -37,7 +37,8 @@ class UsersTable extends DataTableComponent
                 ->searchable(),
             Column::make('Dibuat Pada', 'created_at')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->format(fn ($value) => $value->format('d F Y')),
             BooleanColumn::make('Status', 'status')
                 ->setCallback(function (string $value, $row) {
                     if ($value == 'aktif') {

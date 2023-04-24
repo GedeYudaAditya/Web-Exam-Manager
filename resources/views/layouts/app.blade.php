@@ -31,7 +31,7 @@
         }
     </style> --}}
     <div class="background h-full">
-        <header class="w-full flex flex-row justify-between p-5 fixed z-[1000]">
+        <header class="w-full flex flex-row justify-between p-5 fixed z-[1000] bg-white bg-opacity-50">
             <div class="logo">
                 <a href="/">
                     <img class="w-12" src="/images/logo.png" alt="Logo">
@@ -83,7 +83,7 @@
         </header>
 
         <main class="w-full flex flex-row justify-center items-center overflow-y-auto overflow-x-hidden">
-            <div class="w-10/12">
+            <div class="w-10/12 min-h-screen mt-10">
                 @yield('content')
             </div>
         </main>

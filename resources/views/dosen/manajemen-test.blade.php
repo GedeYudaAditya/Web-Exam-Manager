@@ -5,7 +5,7 @@
 
         <h3 class="text-center font-bold text-2xl mb-5">Buat Test</h3>
         <div class="grid grid-cols-3 gap-4 mb-5">
-            <a href="#">
+            <a href="{{ route('dosen.test.paru-paru') }}">
                 <div
                     class="bg-slate-300 p-10 rounded group shadow-md hover:bg-blue-500 hover:text-white transition-all ease-in-out">
                     <div class="grid grid-cols-2 gap-4 justify-center items-center">
@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </a>
-            <a href="#">
+            <a href="{{ route('dosen.test.ginjal') }}">
                 <div
                     class="bg-slate-300 p-10 rounded group shadow-md hover:bg-blue-500 hover:text-white transition-all ease-in-out">
                     <div class="grid grid-cols-2 gap-4 justify-center items-center">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </a>
-            <a href="#">
+            <a href="{{ route('dosen.test.reproduksi') }}">
                 <div
                     class="bg-slate-300 p-10 rounded group shadow-md hover:bg-blue-500 hover:text-white transition-all ease-in-out">
                     <div class="grid grid-cols-2 gap-4 justify-center items-center">

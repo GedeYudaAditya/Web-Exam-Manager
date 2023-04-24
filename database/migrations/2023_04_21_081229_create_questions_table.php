@@ -15,6 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('slug')->unique();
             $table->text('question');
+            $table->text('option_a');
+            $table->text('option_b');
+            $table->text('option_c');
+            $table->text('option_d');
+            $table->text('option_e')->nullable();
+            $table->enum('correct_answer', ['a', 'b', 'c', 'd', 'e']);
             $table->float('score')->default(0);
             $table->foreignId('test_id')->constrained('tests')->onDelete('cascade');
             $table->timestamps();
