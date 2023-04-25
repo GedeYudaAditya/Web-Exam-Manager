@@ -36,6 +36,20 @@ class TestTable extends DataTableComponent
                 ->sortable()
                 ->searchable()
                 ->format(fn ($value) => $value . '%'),
+            Column::make('Score Terbaik', 'id')
+                ->sortable()
+                ->searchable()
+                ->format(function ($value, $row) {
+                    $user = auth()->user();
+                    // score terbaik
+                    $report = $user->reports->where('test_id', $row->id)->sortByDesc('score')->first();
+                    if ($report) {
+                        return $report->score . '%';
+                    } else {
+                        return 'Belum mengerjakan';
+                    }
+                })
+                ->hideIf(auth()->user()->role == 'dosen'),
             BooleanColumn::make('Status', 'status')
                 ->setCallback(function (string $value, $row) {
                     if ($value == 'published') {
@@ -45,6 +59,7 @@ class TestTable extends DataTableComponent
                     }
                 })
                 ->searchable()
+                ->hideIf(auth()->user()->role == 'mahasiswa')
                 ->sortable(),
             // ->hideIf(true),
             Column::make('Durasi', 'duration')
@@ -56,7 +71,7 @@ class TestTable extends DataTableComponent
             //     ->searchable()
             //     ->format(fn ($value) => $value->format('d F Y')),
             ButtonGroupColumn::make('Aksi')
-                ->hideIf(Route::is('mahasiswa.test.paru-paru') || Route::is('mahasiswa.test.ginjal') || Route::is('mahasiswa.test.reproduksi'))
+                ->hideIf(auth()->user()->role == 'mahasiswa')
                 ->attributes(function ($row) {
                     return [
                         'class' => 'space-x-2',
@@ -150,7 +165,7 @@ class TestTable extends DataTableComponent
                         }),
                 ]),
             ButtonGroupColumn::make('Aksi Mahasiswa')
-                ->hideIf(Route::is('dosen.test.paru-paru') || Route::is('dosen.test.ginjal') || Route::is('dosen.test.reproduksi'))
+                ->hideIf(auth()->user()->role == 'dosen')
                 ->attributes(function ($row) {
                     return [
                         'class' => 'space-x-2',

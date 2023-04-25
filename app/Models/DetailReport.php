@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Test extends Model
+class DetailReport extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    public function questions()
+    public function report()
     {
-        return $this->hasMany(Question::class);
+        return $this->belongsTo(Report::class);
     }
 
-    public function reports()
+    public function question()
     {
-        return $this->hasMany(Report::class);
+        return $this->belongsTo(Question::class);
     }
 }

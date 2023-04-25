@@ -6,7 +6,7 @@
             <h1 class="text-center font-bold text-4xl mb-5 sm:mb-10 sm:text-start">Anatomi Fisiologi <br> Manusia</h1>
             {{-- Button Mulai --}}
             <div class="flex flex-row justify-center sm:justify-normal">
-                <a href="/test">
+                <a href="{{ route('mahasiswa.media') }}">
                     <button class="button">
                         Mulai Belajar
                     </button>

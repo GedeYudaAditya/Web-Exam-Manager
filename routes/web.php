@@ -41,6 +41,10 @@ Route::group(['middleware' => ['role.mahasiswa']], function () {
         // Menu Test
         Route::prefix('test')->group(function () {
             Route::get('/', [MahasiswaController::class, 'test'])->name('mahasiswa.test');
+            Route::post('makeAttampt/{test:slug}', [MahasiswaController::class, 'makeAttampt'])->name('mahasiswa.test.makeAttamp');
+
+            Route::get('/report', [MahasiswaController::class, 'report'])->name('mahasiswa.test.report');
+            Route::get('/result/{report:slug}', [MahasiswaController::class, 'result'])->name('mahasiswa.test.result');
 
             Route::prefix('paru-paru-test')->group(function () {
                 Route::get('/', [MahasiswaController::class, 'paruParuTest'])->name('mahasiswa.test.paru-paru');
@@ -70,6 +74,8 @@ Route::group(['middleware' => ['role.dosen']], function () {
 
         Route::prefix('manajemen-test')->group(function () {
             Route::get('/', [DosenController::class, 'test'])->name('dosen.test');
+            Route::get('/report', [DosenController::class, 'report'])->name('dosen.test.report');
+            Route::get('/report/{report:slug}', [DosenController::class, 'detailReport'])->name('dosen.test.report.detail');
 
             Route::prefix('paru-paru-test')->group(function () {
                 Route::get('/', [DosenController::class, 'paruParuTest'])->name('dosen.test.paru-paru');

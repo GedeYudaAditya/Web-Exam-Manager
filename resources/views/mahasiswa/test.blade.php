@@ -42,5 +42,21 @@
                 </div>
             </a>
         </div>
+
+        {{-- Menu Report Hasil --}}
+        <div class="flex flex-rows justify-center">
+            <a href="{{ route('mahasiswa.test.report') }}">
+                <div
+                    class="bg-slate-300 p-10 rounded group shadow-md hover:bg-blue-500 hover:text-white transition-all ease-in-out w-96">
+                    <div class="grid grid-cols-2 gap-4 justify-center items-center">
+                        <img src="{{ asset('images/3d-model-icon.webp') }}" alt="video"
+                            class="group-hover:translate-x-7 group-hover:-translate-y-7 group-hover:rotate-6 transition-all ease-in-out">
+                        <h4
+                            class="text-center font-bold text-2xl mb-5 group-hover:scale-110 group-hover:translate-x-7 transition-all ease-in-out">
+                            Report Hasil</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
 @endsection

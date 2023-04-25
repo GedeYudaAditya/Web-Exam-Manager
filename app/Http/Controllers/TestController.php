@@ -740,6 +740,7 @@ class TestController extends Controller
      */
     private function slug($name)
     {
+        $name = Str::limit($name, 50);
         $slug = Str::slug($name . '-' . time());
         return $slug;
     }

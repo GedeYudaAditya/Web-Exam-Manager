@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+use App\Models\Report;
 use App\Models\Test;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -389,5 +390,22 @@ class DosenController extends Controller
         ];
 
         return view('dosen.test.soal.edit', $data);
+    }
+
+    public function report()
+    {
+        $data = [
+            'title' => 'Laporan Test',
+        ];
+        return view('dosen.test.report', $data);
+    }
+
+    public function detailReport(Report $report)
+    {
+        $data = [
+            'title' => 'Hasil Test',
+            'report' => $report,
+        ];
+        return view('dosen.test.detail-report', $data);
     }
 }
