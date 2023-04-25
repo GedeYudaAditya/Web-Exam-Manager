@@ -146,9 +146,16 @@
 
 @section('other_js')
     <script>
+        var nullInput = document.getElementsByClassName('null');
+        for (let i = 0; i < nullInput.length; i++) {
+            nullInput[i].checked = true;
+        }
+
         // Timer
         var timeleft = {{ $test->duration }} * 60;
         var downloadTimer = setInterval(function() {
+            // at the start of the page, set all input to null
+
             if (timeleft <= 0) {
                 window.onbeforeunload = null;
                 clearInterval(downloadTimer);
@@ -178,23 +185,16 @@
         document.getElementById("sub").addEventListener("click", function() {
             window.onbeforeunload = null;
 
-            // if there is still question not answered warning the user
+            // check if there is any radio not checked
+            var nulls = document.querySelectorAll('input[type="radio"]:not(:checked)');
 
-            for (var i = 0; i < radios.length; i++) {
-                if (radios[i].type === 'radio' && radios[i].checked === false) {
-                    notAnswered = true;
-                }
+            // if there is any radio not checked, ask user to confirm
+            if (nulls.length > 0) {
+                notAnswered = true;
             }
 
             if (notAnswered) {
                 if (confirm("Masih ada soal yang belum dijawab, yakin ingin submit?")) {
-                    // get element radio with class null
-                    var nulls = document.getElementsByClassName('null');
-                    // check all radios
-                    for (var i = 0; i < nulls.length; i++) {
-                        nulls[i].checked = true;
-                    }
-
                     document.getElementById("submit").click();
                 }
             }

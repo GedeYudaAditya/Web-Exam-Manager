@@ -64,13 +64,14 @@
                     @foreach ($report->detailReports as $answer)
                         <div class="w-full md:w-1/2 mb-4 md:mb-0">
                             <p class="text-gray-600">
-                                @if ($answer->user_answer == null || $answer->essay_answer == null)
+                                @if ($answer->user_answer == null && $answer->essay_answer == null)
                                     <span class="text-red-500">Tidak menjawab</span>
                                 @endif
                                 Pertanyaan {{ $loop->iteration }}
                             </p>
                             <h3 class="text-lg text-gray-800">
-                                <p class="mb-3 font-medium {{ $answer->user_answer ? '' : 'text-red-500' }}">
+                                <p
+                                    class="mb-3 font-medium {{ $answer->user_answer == null && $answer->essay_answer == null ? 'text-red-500' : '' }}">
                                     {{ $answer->question->question }}</p>
                                 {{-- option --}}
                                 {{-- bentuk table --}}

@@ -246,11 +246,19 @@ class MahasiswaController extends Controller
                     }
 
                     if ($databaseQuestion->type == 'essay') {
-                        $report->detailReports()->create([
-                            'question_id' => $databaseQuestion->id,
-                            'essay_answer' => $value,
-                            'is_correct' => true,
-                        ]);
+                        if ($answer == null) {
+                            $report->detailReports()->create([
+                                'question_id' => $databaseQuestion->id,
+                                'essay_answer' => $value,
+                                'is_correct' => false,
+                            ]);
+                        } else {
+                            $report->detailReports()->create([
+                                'question_id' => $databaseQuestion->id,
+                                'essay_answer' => $value,
+                                'is_correct' => true,
+                            ]);
+                        }
                     } else {
                         $report->detailReports()->create([
                             'question_id' => $databaseQuestion->id,
