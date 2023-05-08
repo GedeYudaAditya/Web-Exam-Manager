@@ -17,6 +17,7 @@
                     $embed = Str::replaceFirst('youtu.be/', 'youtube.com/embed/', $video);
                 }
             @endphp
+            {{-- build good layout for video --}}
             <iframe class="aspect-w-16 aspect-h-9" width="853" height="480" src="{{ $embed }}"
                 title="YouTube video player" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

@@ -6,7 +6,11 @@ use App\Models\Question;
 use App\Models\Report;
 use App\Models\Test;
 use App\Models\User;
+use App\Exports\ReportExport;
+use App\Models\Video;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class DosenController extends Controller
 {
@@ -30,10 +34,107 @@ class DosenController extends Controller
     public function media()
     {
         $data = [
-            'title' => 'Manajemen Media'
+            'title' => 'Manajemen Media',
+            'videos' => Video::all()
         ];
         return view('dosen.manajemen-media', $data);
     }
+
+    public function mediaDetail(Video $video)
+    {
+        $data = [
+            'title' => 'Detail Media',
+            'video' => $video
+        ];
+        return view('dosen.manajemen-media.index', $data);
+    }
+
+    public function mediaAdd()
+    {
+        $data = [
+            'title' => 'Tambah Media'
+        ];
+        return view('dosen.manajemen-media.create', $data);
+    }
+
+    public function mediaStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|max:255|min:3',
+            'embed' => 'required',
+            'description' => 'required',
+            'category' => 'required|in:paru,ginjal,reproduksi',
+            'status' => 'required|in:draft,published'
+        ]);
+
+        try {
+            Video::create([
+                'slug' => Str::slug($request->name . '-' . time()),
+                'name' => $request->name,
+                'embed' => $request->embed,
+                'description' => $request->description,
+                'category' => $request->category,
+                'status' => $request->status
+            ]);
+            return redirect()->route('dosen.media')->with('success', 'Berhasil menambah media');
+        } catch (\Exception $e) {
+            return redirect()->route('dosen.media.create')->with('error', 'Gagal menambah media');
+        }
+    }
+
+    public function mediaEdit(Video $video)
+    {
+        $data = [
+            'title' => 'Edit Media',
+            'video' => $video
+        ];
+        return view('dosen.manajemen-media.edit', $data);
+    }
+
+    public function mediaUpdate(Request $request, Video $video)
+    {
+        $request->validate([
+            'name' => 'required|max:255|min:3',
+            'embed' => 'required',
+            'description' => 'required',
+            'category' => 'required|in:paru,ginjal,reproduksi',
+            'status' => 'required|in:draft,published'
+        ]);
+
+        try {
+            $video->name = $request->name;
+            $video->embed = $request->embed;
+            $video->description = $request->description;
+            $video->category = $request->category;
+            $video->status = $request->status;
+            $video->save();
+            return redirect()->route('dosen.media')->with('success', 'Berhasil mengubah media');
+        } catch (\Exception $e) {
+            return redirect()->route('dosen.media')->with('error', 'Gagal mengubah media');
+        }
+    }
+
+    public function mediaDelete(Video $video)
+    {
+        try {
+            $video->delete();
+            return redirect()->route('dosen.media')->with('success', 'Berhasil menghapus media');
+        } catch (\Exception $e) {
+            return redirect()->route('dosen.media')->with('error', 'Gagal menghapus media');
+        }
+    }
+
+    public function ubahStatus(Video $video)
+    {
+        if ($video->status == 'published') {
+            $video->status = 'draft';
+        } else {
+            $video->status = 'published';
+        }
+        $video->save();
+        return redirect()->route('dosen.media')->with('success', 'Berhasil mengubah status media');
+    }
+
 
     /**
      * @kegunaan
@@ -407,5 +508,10 @@ class DosenController extends Controller
             'report' => $report,
         ];
         return view('dosen.test.detail-report', $data);
+    }
+
+    public function exportHasil()
+    {
+        return Excel::download(new ReportExport, 'hasil.xlsx');
     }
 }

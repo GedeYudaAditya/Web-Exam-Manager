@@ -32,7 +32,7 @@ Route::group(['middleware' => ['role.mahasiswa']], function () {
             Route::get('/', [MahasiswaController::class, 'media'])->name('mahasiswa.media');
 
             Route::get('/video', [MahasiswaController::class, 'video'])->name('mahasiswa.media.video');
-            Route::get('/video/{id}', [MahasiswaController::class, 'detailVideo'])->name('mahasiswa.media.video.detail');
+            Route::get('/video/{video:slug}', [MahasiswaController::class, 'detailVideo'])->name('mahasiswa.media.video.detail');
 
             Route::get('/anatomy_3d', [MahasiswaController::class, 'anatomy3d'])->name('mahasiswa.media.anatomy3d');
             Route::get('/anatomy_3d/{id}', [MahasiswaController::class, 'detailAnatomy3d'])->name('mahasiswa.media.anatomy3d.detail');
@@ -70,6 +70,18 @@ Route::group(['middleware' => ['role.dosen']], function () {
 
         Route::prefix('manajemen-media')->group(function () {
             Route::get('/', [DosenController::class, 'media'])->name('dosen.media');
+            Route::get('/detail/{video:slug}', [DosenController::class, 'mediaDetail'])->name('dosen.media.detail');
+
+            Route::get('/create', [DosenController::class, 'mediaAdd'])->name('dosen.media.create');
+            Route::post('/create', [DosenController::class, 'mediaStore'])->name('dosen.media.store');
+
+            Route::get('/edit/{video:slug}', [DosenController::class, 'mediaEdit'])->name('dosen.media.edit');
+            Route::post('/edit/{video:slug}', [DosenController::class, 'mediaUpdate'])->name('dosen.media.update');
+
+            Route::delete('/delete/{video:slug}', [DosenController::class, 'mediaDelete'])->name('dosen.media.delete');
+
+            // change status
+            Route::get('/change-status/{video:slug}', [DosenController::class, 'ubahStatus'])->name('dosen.media.change-status');
         });
 
         Route::prefix('manajemen-test')->group(function () {
@@ -139,5 +151,7 @@ Route::group(['middleware' => ['role.dosen']], function () {
             Route::get('/dec/{user:id}', [DosenController::class, 'decUser'])->name('dosen.test.user.dec');
             Route::get('/del/{user:id}', [DosenController::class, 'delUser'])->name('dosen.test.user.del');
         });
+
+        Route::get('/export', [DosenController::class, 'exportHasil'])->name('dosen.export');
     });
 });

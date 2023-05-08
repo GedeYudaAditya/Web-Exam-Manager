@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Report;
 use App\Models\Test;
+use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -43,7 +44,8 @@ class MahasiswaController extends Controller
     public function video()
     {
         $data = [
-            'title' => 'Video Pembelajaran'
+            'title' => 'Video Pembelajaran',
+            'videos' => Video::where('status', 'published')->get()->sortByDesc('created_at')
         ];
         return view('mahasiswa.media.video', $data);
     }
@@ -52,10 +54,11 @@ class MahasiswaController extends Controller
      * @kegunaan
      * Menampilkan halaman detail video untuk mahasiswa
      */
-    public function detailVideo($id)
+    public function detailVideo(Video $video)
     {
         $data = [
-            'title' => 'Detail Video'
+            'title' => 'Detail Video',
+            'video' => $video,
         ];
 
         return view('mahasiswa.media.detail_video', $data);

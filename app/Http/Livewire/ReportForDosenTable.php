@@ -85,4 +85,17 @@ class ReportForDosenTable extends DataTableComponent
             ->join('users', 'reports.user_id', '=', 'users.id')
             ->select('reports.*', 'tests.name as test_name', 'tests.category as category', 'users.name as user_name');
     }
+
+    // export button
+    public function export()
+    {
+        return redirect()->route('dosen.export');
+    }
+
+    public function bulkActions(): array
+    {
+        return [
+            'export' => 'Export',
+        ];
+    }
 }

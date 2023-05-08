@@ -4,15 +4,68 @@
     <div class="container pt-20">
         <h3 class="text-center font-bold text-2xl mb-5">Buat Soal Untuk Test {{ $test->name }}</h3>
         <div class="container dark:bg-slate-800 rounded shadow-md p-10 mb-20 bg-white">
-            <form action="{{ $route_update }}" method="POST">
+            <form action="{{ $route_update }}" method="POST" enctype="multipart/form-data">
                 @csrf
+
+                {{-- alert all error --}}
+                @if ($errors->any())
+                    <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li class="font-bold">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <p class="block font-bold text-white mb-5">
                     <span class="text-red-500">*</span> Wajib diisi
                 </p>
                 <div class="flex flex-col mb-5">
-                    <label for="question" class="font-bold text-white">Pertanyaan <span class="text-red-500">*</span></label>
+                    <label for="question" class="font-bold text-white">Pertanyaan <span
+                            class="text-red-500">*</span></label>
                     <textarea name="question" id="question" class="border border-gray-300 rounded p-2">{{ $soal->question }}</textarea>
                 </div>
+
+                {{-- input for image --}}
+                <div class="flex flex-col mb-5">
+                    <label for="image" class="font-bold text-white">Gambar</label>
+                    <input type="file" name="image" id="image" class="border bg-white border-gray-300 rounded p-2"
+                        onchange="previewImage()">
+                </div>
+
+                @if ($soal->image != null)
+                    {{-- preview image --}}
+                    <div class="flex flex-col mb-5" id="prev">
+                        <label for="image" class="font-bold text-white">Preview Gambar</label>
+                        <img src="{{ asset('storage/images/' . $soal->image) }}" alt="" id="preview-image"
+                            class="border border-gray-300 rounded p-2 w-80 h-80 object-cover object-center
+                        ">
+                    </div>
+                @else
+                    {{-- preview image --}}
+                    <div class="flex flex-col mb-5" id="prev" style="display: none">
+                        <label for="image" class="font-bold text-white">Preview Gambar</label>
+                        <img src="" alt="" id="preview-image"
+                            class="border border-gray-300 rounded p-2 w-80 h-80 object-cover object-center
+                    ">
+                    </div>
+                @endif
+
+                {{-- input for video embeded --}}
+                <div class="flex flex-col mb-5">
+                    <label for="video" class="font-bold text-white">Video</label>
+                    <input type="text" name="embed" id="video" class="border border-gray-300 rounded p-2"
+                        value="{{ $soal->embed }}" onchange="previewVideo()">
+                </div>
+
+                {{-- preview embeded --}}
+                <div class="flex flex-col mb-5" id="vid" style="display: none;">
+                    <label for="video" class="font-bold text-white">Preview Video</label>
+                    <iframe src="" frameborder="0" id="preview-video"
+                        class="border border-gray-300 rounded p-2 w-full aspect-video object-cover object-center"></iframe>
+                </div>
+
 
                 {{-- Jenis Pertanyaan --}}
                 <div class="flex flex-col mb-5">
@@ -104,6 +157,54 @@
                     $('#multiple_choice').show();
                 }
             });
+        });
+    </script>
+
+    {{-- Preview image --}}
+    <script>
+        function previewImage() {
+            document.getElementById("prev").style.display = "block";
+            // show loading animation
+            // document.getElementById("loading").style.display = "block";
+            document.getElementById("preview-image").style.display = "block";
+            var oFReader = new FileReader();
+            oFReader.readAsDataURL(document.getElementById("image").files[0]);
+
+            oFReader.onload = function(oFREvent) {
+                console.log(oFREvent.target.result);
+                document.getElementById("preview-image").src = oFREvent.target.result;
+            };
+        };
+    </script>
+
+    {{-- Preview video --}}
+    <script>
+        function previewVideo() {
+            document.getElementById("vid").style.display = "block";
+            document.getElementById("preview-video").style.display = "block";
+            var video = document.getElementById("video").value;
+            if (video.includes("watch?v=")) {
+                var embed = video.replace("watch?v=", "embed/");
+            } else {
+                var embed = video.replace("youtu.be/", "youtube.com/embed/");
+            }
+            document.getElementById("preview-video").src = embed;
+            // do not show loading animation
+            document.getElementById("loading").style.display = "none";
+        };
+    </script>
+
+    {{-- load preview if there is any value in first time page loaded --}}
+    <script>
+        $(document).ready(function() {
+            // var image = document.getElementById("image").value;
+            var video = document.getElementById("video").value;
+            // if (image != "") {
+            //     previewImage();
+            // }
+            if (video != "") {
+                previewVideo();
+            }
         });
     </script>
 @endsection

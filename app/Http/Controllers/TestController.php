@@ -6,6 +6,7 @@ use App\Models\Question;
 use App\Models\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class TestController extends Controller
@@ -82,6 +83,12 @@ class TestController extends Controller
     {
         DB::beginTransaction();
         try {
+            // delete all image in storage
+            foreach ($test->questions as $question) {
+                if ($question->image) {
+                    Storage::delete($question->image);
+                }
+            }
             $test->delete();
             DB::commit();
             return redirect()->route('dosen.test.paru-paru')->with('success', 'Berhasil menghapus test');
@@ -121,7 +128,18 @@ class TestController extends Controller
             $request->validate([
                 'question' => 'required',
                 'score' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'embed' => 'nullable',
             ]);
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->extension();
+                // save to storage
+                $image->storeAs('public/images', $imageName);
+            } else {
+                $imageName = null;
+            }
 
             DB::beginTransaction();
             try {
@@ -129,6 +147,8 @@ class TestController extends Controller
                     'slug' => self::slug($request->question),
                     'question' => $request->question,
                     'score' => $request->score,
+                    'image' => $imageName,
+                    'embed' => $request->embed,
                     // 'test_id' => $test->id,
                     'type' => 'essay',
                 ]);
@@ -148,7 +168,18 @@ class TestController extends Controller
                 'option_e' => 'nullable',
                 'score' => 'required',
                 'correct_answer' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'embed' => 'nullable',
             ]);
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->extension();
+                // save to storage
+                $image->storeAs('public/images', $imageName);
+            } else {
+                $imageName = null;
+            }
 
             DB::beginTransaction();
             try {
@@ -163,6 +194,8 @@ class TestController extends Controller
                     'score' => $request->score,
                     'correct_answer' => $request->correct_answer,
                     'type' => 'multiple_choice',
+                    'image' => $imageName,
+                    'embed' => $request->embed,
                 ]);
                 DB::commit();
                 return redirect()->route('dosen.test.paru-paru.soal', $test->slug)->with('success', 'Berhasil menambahkan soal');
@@ -185,7 +218,20 @@ class TestController extends Controller
             $request->validate([
                 'question' => 'required',
                 'score' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'embed' => 'nullable',
             ]);
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/images', $imageName);
+                if ($question->image != null) {
+                    Storage::delete('public/images/' . $question->image);
+                }
+            } else {
+                $imageName = $question->image;
+            }
 
             DB::beginTransaction();
             try {
@@ -194,6 +240,8 @@ class TestController extends Controller
                 $question->score = $request->score;
                 $question->correct_answer = null;
                 $question->type = 'essay';
+                $question->image = $imageName;
+                $question->embed = $request->embed;
                 $question->save();
                 DB::commit();
                 return redirect()->route('dosen.test.paru-paru.soal', $test->slug)->with('success', 'Berhasil mengubah soal');
@@ -211,7 +259,20 @@ class TestController extends Controller
                 'option_e' => 'nullable',
                 'score' => 'required',
                 'correct_answer' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'embed' => 'nullable',
             ]);
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/images', $imageName);
+                if ($question->image != null) {
+                    Storage::delete('public/images/' . $question->image);
+                }
+            } else {
+                $imageName = $question->image;
+            }
 
             DB::beginTransaction();
             try {
@@ -225,6 +286,8 @@ class TestController extends Controller
                 $question->score = $request->score;
                 $question->correct_answer = $request->correct_answer;
                 $question->type = 'multiple_choice';
+                $question->image = $request->image;
+                $question->embed = $request->embed;
                 $question->save();
                 DB::commit();
                 return redirect()->route('dosen.test.paru-paru.soal', $test->slug)->with('success', 'Berhasil mengubah soal');
@@ -242,6 +305,10 @@ class TestController extends Controller
     {
         DB::beginTransaction();
         try {
+            // delete image
+            if ($question->image != null) {
+                Storage::delete('public/images/' . $question->image);
+            }
             $question->delete();
             DB::commit();
             return redirect()->route('dosen.test.paru-paru.soal', $test->slug)->with('success', 'Berhasil menghapus soal');
@@ -322,6 +389,12 @@ class TestController extends Controller
     {
         DB::beginTransaction();
         try {
+            // delete all question image
+            foreach ($test->questions as $question) {
+                if ($question->image) {
+                    Storage::delete($question->image);
+                }
+            }
             $test->delete();
             DB::commit();
             return redirect()->route('dosen.test.ginjal')->with('success', 'Berhasil menghapus test');
@@ -360,7 +433,17 @@ class TestController extends Controller
             $request->validate([
                 'question' => 'required',
                 'score' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'embed' => 'nullable',
             ]);
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $image_name = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/images', $image_name);
+            } else {
+                $image_name = null;
+            }
 
             DB::beginTransaction();
             try {
@@ -370,6 +453,8 @@ class TestController extends Controller
                 $question->score = $request->score;
                 $question->type = 'essay';
                 $question->test_id = $test->id;
+                $question->image = $image_name;
+                $question->embed = $request->embed;
                 $question->save();
                 DB::commit();
                 return redirect()->route('dosen.test.ginjal.soal', $test->slug)->with('success', 'Berhasil menambahkan soal');
@@ -387,8 +472,17 @@ class TestController extends Controller
                 'option_e' => 'nullable',
                 'score' => 'required',
                 'correct_answer' => 'required',
-                'type' => 'multiple_choice',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'embed' => 'nullable',
             ]);
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $image_name = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/images', $image_name);
+            } else {
+                $image_name = null;
+            }
 
             DB::beginTransaction();
             try {
@@ -404,6 +498,8 @@ class TestController extends Controller
                 $question->correct_answer = $request->correct_answer;
                 $question->type = 'multiple_choice';
                 $question->test_id = $test->id;
+                $question->image = $image_name;
+                $question->embed = $request->embed;
                 $question->save();
                 DB::commit();
                 return redirect()->route('dosen.test.ginjal.soal', $test->slug)->with('success', 'Berhasil menambahkan soal');
@@ -425,7 +521,20 @@ class TestController extends Controller
             $request->validate([
                 'question' => 'required',
                 'score' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'embed' => 'nullable',
             ]);
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/images', $imageName);
+                if ($question->image != null) {
+                    Storage::delete('public/images/' . $question->image);
+                }
+            } else {
+                $imageName = $question->image;
+            }
 
             DB::beginTransaction();
             try {
@@ -434,6 +543,9 @@ class TestController extends Controller
                 $question->score = $request->score;
                 $question->correct_answer = null;
                 $question->type = 'essay';
+                $question->test_id = $test->id;
+                $question->image = $imageName;
+                $question->embed = $request->embed;
                 $question->save();
                 DB::commit();
                 return redirect()->route('dosen.test.ginjal.soal', $test->slug)->with('success', 'Berhasil mengubah soal');
@@ -451,7 +563,20 @@ class TestController extends Controller
                 'option_e' => 'nullable',
                 'score' => 'required',
                 'correct_answer' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'embed' => 'nullable',
             ]);
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/images', $imageName);
+                if ($question->image != null) {
+                    Storage::delete('public/images/' . $question->image);
+                }
+            } else {
+                $imageName = $question->image;
+            }
 
             DB::beginTransaction();
             try {
@@ -466,6 +591,8 @@ class TestController extends Controller
                 $question->correct_answer = $request->correct_answer;
                 $question->type = 'multiple_choice';
                 $question->test_id = $test->id;
+                $question->image = $imageName;
+                $question->embed = $request->embed;
                 $question->save();
                 DB::commit();
                 return redirect()->route('dosen.test.ginjal.soal', $test->slug)->with('success', 'Berhasil mengubah soal');
@@ -484,6 +611,10 @@ class TestController extends Controller
     {
         DB::beginTransaction();
         try {
+            // delete image
+            if ($question->image != null) {
+                Storage::delete('public/images/' . $question->image);
+            }
             $question->delete();
             DB::commit();
             return redirect()->route('dosen.test.ginjal.soal', $test->slug)->with('success', 'Berhasil menghapus soal');
@@ -564,6 +695,12 @@ class TestController extends Controller
     {
         DB::beginTransaction();
         try {
+            // delete all image in question
+            foreach ($test->questions as $question) {
+                if ($question->image != null) {
+                    Storage::delete('public/images/' . $question->image);
+                }
+            }
             $test->delete();
             DB::commit();
             return redirect()->route('dosen.test.reproduksi')->with('success', 'Berhasil menghapus test');
@@ -602,7 +739,17 @@ class TestController extends Controller
             $request->validate([
                 'question' => 'required',
                 'score' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'embed' => 'nullable',
             ]);
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/images', $imageName);
+            } else {
+                $imageName = null;
+            }
 
             DB::beginTransaction();
             try {
@@ -612,6 +759,8 @@ class TestController extends Controller
                 $question->score = $request->score;
                 $question->type = 'essay';
                 $question->test_id = $test->id;
+                $question->image = $imageName;
+                $question->embed = $request->embed;
                 $question->save();
                 DB::commit();
                 return redirect()->route('dosen.test.reproduksi.soal', $test->slug)->with('success', 'Berhasil menambahkan soal');
@@ -629,7 +778,17 @@ class TestController extends Controller
                 'option_e' => 'nullable',
                 'score' => 'required',
                 'correct_answer' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'embed' => 'nullable',
             ]);
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/images', $imageName);
+            } else {
+                $imageName = null;
+            }
 
             DB::beginTransaction();
             try {
@@ -645,6 +804,8 @@ class TestController extends Controller
                 $question->correct_answer = $request->correct_answer;
                 $question->type = 'multiple_choice';
                 $question->test_id = $test->id;
+                $question->image = $imageName;
+                $question->embed = $request->embed;
                 $question->save();
                 DB::commit();
                 return redirect()->route('dosen.test.reproduksi.soal', $test->slug)->with('success', 'Berhasil menambahkan soal');
@@ -666,7 +827,20 @@ class TestController extends Controller
             $request->validate([
                 'question' => 'required',
                 'score' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'embed' => 'nullable',
             ]);
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/images', $imageName);
+                if ($question->image != null) {
+                    Storage::delete('public/images/' . $question->image);
+                }
+            } else {
+                $imageName = $question->image;
+            }
 
             DB::beginTransaction();
             try {
@@ -675,6 +849,8 @@ class TestController extends Controller
                 $question->score = $request->score;
                 $question->correct_answer = null;
                 $question->type = 'essay';
+                $question->image = $imageName;
+                $question->embed = $request->embed;
                 $question->save();
                 DB::commit();
                 return redirect()->route('dosen.test.reproduksi.soal', $test->slug)->with('success', 'Berhasil mengubah soal');
@@ -692,7 +868,20 @@ class TestController extends Controller
                 'option_e' => 'nullable',
                 'score' => 'required',
                 'correct_answer' => 'required',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'embed' => 'nullable',
             ]);
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/images', $imageName);
+                if ($question->image != null) {
+                    Storage::delete('public/images/' . $question->image);
+                }
+            } else {
+                $imageName = $question->image;
+            }
 
             DB::beginTransaction();
             try {
@@ -725,6 +914,9 @@ class TestController extends Controller
     {
         DB::beginTransaction();
         try {
+            if ($question->image != null) {
+                Storage::delete('public/images/' . $question->image);
+            }
             $question->delete();
             DB::commit();
             return redirect()->route('dosen.test.reproduksi.soal', $test->slug)->with('success', 'Berhasil menghapus soal');

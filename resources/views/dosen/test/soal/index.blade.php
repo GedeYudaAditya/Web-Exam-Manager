@@ -42,8 +42,35 @@
                         </form>
                     </div>
                     <div class="flex flex-col text-white">
+                        @if ($soal->embed)
+                            {{-- make embed --}}
+                            {{-- filter the $soal->video url first --}}
+                            @php
+                                $video = $soal->embed;
+                                if (Str::contains($video, 'watch?v=')) {
+                                    $embed = Str::replaceFirst('watch?v=', 'embed/', $video);
+                                } else {
+                                    $embed = Str::replaceFirst('youtu.be/', 'youtube.com/embed/', $video);
+                                }
+                            @endphp
+                            <div class="flex flex-col">
+                                <iframe src="{{ $embed }}" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen
+                                    class="border border-gray-300 rounded p-2 w-full aspect-video object-cover object-center"></iframe>
+                            </div>
+                        @endif
                         <div class="flex flex-row justify-between">
-                            <h3 class="font-bold text-xl mb-3">{{ $soal->question }} </h3>
+                            {{-- if there is image or video in question preview them --}}
+                            @if ($soal->image)
+                                <div class="flex flex-col">
+                                    <img src="{{ asset('storage/images/' . $soal->image) }}" alt="image"
+                                        class="w-64 aspect-square">
+                                    <h3 class="font-bold text-xl mb-3">{{ $soal->question }} </h3>
+                                </div>
+                            @else
+                                <h3 class="font-bold text-xl mb-3">{{ $soal->question }} </h3>
+                            @endif
                         </div>
                         <div class="container">
                             <div style="margin-left: 30px; margin-right: 30px;">

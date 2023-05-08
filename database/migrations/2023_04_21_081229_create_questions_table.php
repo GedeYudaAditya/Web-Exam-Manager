@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->unique();
+            $table->text('image')->nullable();
+            $table->text('embed')->nullable();
             $table->longText('question');
             $table->text('option_a')->nullable();
             $table->text('option_b')->nullable();

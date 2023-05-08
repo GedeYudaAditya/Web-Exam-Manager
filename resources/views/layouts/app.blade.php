@@ -129,7 +129,7 @@
 
         // jika diluar dropdown-nav maka dropdown-content akan hilang
         document.addEventListener('click', (e) => {
-            console.log(e.target);
+            // console.log(e.target);
             if (e.target !== images[0]) {
                 dropdownContent.forEach((content) => {
                     content.classList.remove('dropdown-content-active');

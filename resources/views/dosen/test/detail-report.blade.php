@@ -69,6 +69,30 @@
                                 @endif
                                 Pertanyaan {{ $loop->iteration }}
                             </p>
+                            @if ($answer->question->embed)
+                                {{-- make embed --}}
+                                {{-- filter the $answer->question->video url first --}}
+                                @php
+                                    $video = $answer->question->embed;
+                                    if (Str::contains($video, 'watch?v=')) {
+                                        $embed = Str::replaceFirst('watch?v=', 'embed/', $video);
+                                    } else {
+                                        $embed = Str::replaceFirst('youtu.be/', 'youtube.com/embed/', $video);
+                                    }
+                                @endphp
+                                <div class="flex flex-col">
+                                    <iframe src="{{ $embed }}" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen
+                                        class="border border-gray-300 rounded p-2 w-full aspect-video object-cover object-center"></iframe>
+                                </div>
+                            @endif
+                            @if ($answer->question->image)
+                                <div class="flex flex-col">
+                                    <img src="{{ asset('storage/images/' . $answer->question->image) }}" alt="image"
+                                        class="w-64 aspect-square">
+                                </div>
+                            @endif
                             <h3 class="text-lg text-gray-800">
                                 <p
                                     class="mb-3 font-medium {{ $answer->user_answer == null && $answer->essay_answer == null ? 'text-red-500' : '' }}">
@@ -76,63 +100,65 @@
                                 {{-- option --}}
                                 {{-- bentuk table --}}
                                 @if ($answer->question->type != 'essay')
-                                    <table>
-                                        <tr>
-                                            <td
-                                                class="flex flex-row items-start {{ $answer->question->correct_answer == 'a' ? 'text-green-300' : '' }} {{ $answer->user_answer == 'a' && $answer->question->correct_answer != 'a' ? 'text-red-500' : '' }}">
-                                                <h4 class="font-bold">A. </span></h4>
-                                            </td>
-                                            <td
-                                                class="{{ $answer->question->correct_answer == 'a' ? 'text-green-300 font-bold' : '' }} {{ $answer->user_answer == 'a' && $answer->question->correct_answer != 'a' ? 'text-red-500 font-bold' : '' }}">
-                                                {{ $answer->question->option_a }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td
-                                                class="flex flex-row items-start {{ $answer->question->correct_answer == 'b' ? 'text-green-300' : '' }} {{ $answer->user_answer == 'b' && $answer->question->correct_answer != 'b' ? 'text-red-500' : '' }}">
-                                                <h4 class="font-bold">B. </span></h4>
-                                            </td>
-                                            <td
-                                                class="{{ $answer->question->correct_answer == 'b' ? 'text-green-300 font-bold' : '' }} {{ $answer->user_answer == 'b' && $answer->question->correct_answer != 'b' ? 'text-red-500 font-bold' : '' }}">
-                                                {{ $answer->question->option_b }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td
-                                                class="flex flex-row items-start {{ $answer->question->correct_answer == 'c' ? 'text-green-300' : '' }} {{ $answer->user_answer == 'c' && $answer->question->correct_answer != 'c' ? 'text-red-500' : '' }}">
-                                                <h4 class="font-bold">C. </span></h4>
-                                            </td>
-                                            <td
-                                                class="{{ $answer->question->correct_answer == 'c' ? 'text-green-300 font-bold' : '' }} {{ $answer->user_answer == 'c' && $answer->question->correct_answer != 'c' ? 'text-red-500 font-bold' : '' }}">
-                                                {{ $answer->question->option_c }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td
-                                                class="flex flex-row items-start {{ $answer->question->correct_answer == 'd' ? 'text-green-300' : '' }} {{ $answer->user_answer == 'd' && $answer->question->correct_answer != 'd' ? 'text-red-500' : '' }}">
-                                                <h4 class="font-bold">D. </span></h4>
-                                            </td>
-                                            <td
-                                                class="{{ $answer->question->correct_answer == 'd' ? 'text-green-300 font-bold' : '' }} {{ $answer->user_answer == 'd' && $answer->question->correct_answer != 'd' ? 'text-red-500 font-bold' : '' }}">
-                                                {{ $answer->question->option_d }}
-                                            </td>
-                                        </tr>
-                                        @if ($answer->question->option_e)
+                                    <div>
+                                        <table>
                                             <tr>
                                                 <td
-                                                    class="flex flex-row items-start {{ $answer->question->correct_answer == 'e' ? 'text-green-300' : '' }} {{ $answer->user_answer == 'e' && $answer->question->correct_answer != 'e' ? 'text-red-500' : '' }}">
-                                                    <h4 class="font-bold">E. </span></h4>
+                                                    class="flex flex-row items-start {{ $answer->question->correct_answer == 'a' ? 'text-green-500' : '' }} {{ $answer->user_answer == 'a' && $answer->question->correct_answer != 'a' ? 'text-red-500' : '' }}">
+                                                    <h4 class="font-bold">A. </span></h4>
                                                 </td>
                                                 <td
-                                                    class="{{ $answer->question->correct_answer == 'e' ? 'text-green-300 font-bold' : '' }} {{ $answer->user_answer == 'e' && $answer->question->correct_answer != 'e' ? 'text-red-500 font-bold' : '' }}">
-                                                    {{ $answer->question->option_e }}
+                                                    class="{{ $answer->question->correct_answer == 'a' ? 'text-green-500 font-bold' : '' }} {{ $answer->user_answer == 'a' && $answer->question->correct_answer != 'a' ? 'text-red-500 font-bold' : '' }}">
+                                                    {{ $answer->question->option_a }}
                                                 </td>
                                             </tr>
-                                        @endif
-                                    </table>
+                                            <tr>
+                                                <td
+                                                    class="flex flex-row items-start {{ $answer->question->correct_answer == 'b' ? 'text-green-500' : '' }} {{ $answer->user_answer == 'b' && $answer->question->correct_answer != 'b' ? 'text-red-500' : '' }}">
+                                                    <h4 class="font-bold">B. </span></h4>
+                                                </td>
+                                                <td
+                                                    class="{{ $answer->question->correct_answer == 'b' ? 'text-green-500 font-bold' : '' }} {{ $answer->user_answer == 'b' && $answer->question->correct_answer != 'b' ? 'text-red-500 font-bold' : '' }}">
+                                                    {{ $answer->question->option_b }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    class="flex flex-row items-start {{ $answer->question->correct_answer == 'c' ? 'text-green-500' : '' }} {{ $answer->user_answer == 'c' && $answer->question->correct_answer != 'c' ? 'text-red-500' : '' }}">
+                                                    <h4 class="font-bold">C. </span></h4>
+                                                </td>
+                                                <td
+                                                    class="{{ $answer->question->correct_answer == 'c' ? 'text-green-500 font-bold' : '' }} {{ $answer->user_answer == 'c' && $answer->question->correct_answer != 'c' ? 'text-red-500 font-bold' : '' }}">
+                                                    {{ $answer->question->option_c }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    class="flex flex-row items-start {{ $answer->question->correct_answer == 'd' ? 'text-green-500' : '' }} {{ $answer->user_answer == 'd' && $answer->question->correct_answer != 'd' ? 'text-red-500' : '' }}">
+                                                    <h4 class="font-bold">D. </span></h4>
+                                                </td>
+                                                <td
+                                                    class="{{ $answer->question->correct_answer == 'd' ? 'text-green-500 font-bold' : '' }} {{ $answer->user_answer == 'd' && $answer->question->correct_answer != 'd' ? 'text-red-500 font-bold' : '' }}">
+                                                    {{ $answer->question->option_d }}
+                                                </td>
+                                            </tr>
+                                            @if ($answer->question->option_e)
+                                                <tr>
+                                                    <td
+                                                        class="flex flex-row items-start {{ $answer->question->correct_answer == 'e' ? 'text-green-500' : '' }} {{ $answer->user_answer == 'e' && $answer->question->correct_answer != 'e' ? 'text-red-500' : '' }}">
+                                                        <h4 class="font-bold">E. </span></h4>
+                                                    </td>
+                                                    <td
+                                                        class="{{ $answer->question->correct_answer == 'e' ? 'text-green-500 font-bold' : '' }} {{ $answer->user_answer == 'e' && $answer->question->correct_answer != 'e' ? 'text-red-500 font-bold' : '' }}">
+                                                        {{ $answer->question->option_e }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        </table>
+                                    </div>
                                 @else
                                     <label class="text-sm text-slate-600" for="{{ $answer->slug }}">Jawaban User:</label>
-                                    <textarea class="w-full" id="{{ $answer->slug }}">{{ $answer->essay_answer }}</textarea>
+                                    <textarea class="w-full bg-slate-400 p-2 rounded" id="{{ $answer->slug }}">{{ $answer->essay_answer }}</textarea>
                                 @endif
                             </h3>
 

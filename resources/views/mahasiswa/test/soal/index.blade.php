@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="container pt-20">
 
         {{-- countdown timer --}}
@@ -9,6 +10,25 @@
                 <h3 class="font-bold text-2xl">Waktu Tersisa</h3>
                 <div class="flex flex-row items-center">
                     <h1 class="font-bold text-5xl" id="countdown">00:00</h1>
+                </div>
+            </div>
+        </div>
+
+        {{-- Map question absolute in left side --}}
+        <div class="fixed right-0 top-20 z-[9999]">
+            <div class="flex flex-col justify-center items-center bg-slate-400 rounded p-5 m-5">
+                <h3 class="font-bold text-2xl">Peta Soal</h3>
+                <hr
+                    class="border border-gray-300 w-full my-2 dark:border-slate-600 dark:bg-slate-600 dark:text-white dark:my-2">
+                <div class="flex flex-row items-center">
+                    <div class="grid grid-cols-3 gap-1">
+                        @foreach ($soals as $soal)
+                            <a href="#soal{{ $loop->iteration }}"
+                                class="bg-blue-500 text-white rounded-full w-5 h-5 flex justify-center items-center mb-2">
+                                {{ $loop->iteration }}
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
@@ -22,19 +42,50 @@
                     Banyak Soal : {{ $soals->count() }}
                 </p>
             </div>
+            {{-- music player in the middle --}}
+            <div class="flex flex-col justify-center items-center mb-10">
+                @include('mahasiswa.test.soal.music_player_')
+            </div>
             <form action="{{ route('mahasiswa.test.makeAttamp', $test->slug) }}" method="POST" id="form">
                 @csrf
                 @forelse ($soals as $soal)
                     <hr>
-                    <div class="bg-sky-900 px-2 py-3">
+                    <div class="bg-sky-900 px-2 py-3" id="soal{{ $loop->iteration }}">
                         <div class="flex items-center flex-col justify-between mb-3 md:flex-row">
                             <div class="flex flex-row mb-3 text-white p-1">
                                 <h4 class="font-bold">Score: {{ $soal->score }}</h4>
                             </div>
                         </div>
                         <div class="flex flex-col text-white">
+                            @if ($soal->embed)
+                                {{-- make embed --}}
+                                {{-- filter the $soal->video url first --}}
+                                @php
+                                    $video = $soal->embed;
+                                    if (Str::contains($video, 'watch?v=')) {
+                                        $embed = Str::replaceFirst('watch?v=', 'embed/', $video);
+                                    } else {
+                                        $embed = Str::replaceFirst('youtu.be/', 'youtube.com/embed/', $video);
+                                    }
+                                @endphp
+                                <div class="flex flex-col">
+                                    <iframe src="{{ $embed }}" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen
+                                        class="border border-gray-300 rounded p-2 w-full aspect-video object-cover object-center"></iframe>
+                                </div>
+                            @endif
                             <div class="flex flex-row justify-between">
-                                <h3 class="font-bold text-xl mb-3">{{ $soal->question }} </h3>
+                                {{-- if there is image or video in question preview them --}}
+                                @if ($soal->image)
+                                    <div class="flex flex-col">
+                                        <img src="{{ asset('storage/images/' . $soal->image) }}" alt="image"
+                                            class="w-64 aspect-square">
+                                        <h3 class="font-bold text-xl mb-3">{{ $soal->question }} </h3>
+                                    </div>
+                                @else
+                                    <h3 class="font-bold text-xl mb-3">{{ $soal->question }} </h3>
+                                @endif
                             </div>
                             <div class="container">
                                 <div style="margin-left: 30px; margin-right: 30px;">
@@ -142,6 +193,7 @@
             </form>
         </div>
     </div>
+
 @endsection
 
 @section('other_js')
