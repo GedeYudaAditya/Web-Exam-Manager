@@ -4,15 +4,15 @@
     <div class="container pt-20">
 
         <h3 class="text-center font-bold text-2xl mb-5">Pilih Test</h3>
-        <div class="grid grid-cols-3 gap-4 mb-5">
+        <div class="grid grid-cols-4 gap-4 mb-5">
             <a href="{{ route('mahasiswa.test.paru-paru') }}">
                 <div
                     class="bg-slate-300 p-10 rounded group shadow-md hover:bg-blue-500 hover:text-white transition-all ease-in-out">
                     <div class="grid grid-cols-2 gap-4 justify-center items-center">
-                        <img src="{{ asset('images/3d-model-icon.webp') }}" alt="video"
-                            class="group-hover:translate-x-7 group-hover:-translate-y-7 group-hover:rotate-6 transition-all ease-in-out">
+                        <img src="{{ asset('images/test2.png') }}" alt="video"
+                            class="group-hover:translate-x-7 group-hover:-translate-y-7 group-hover:rotate-6 transition-all ease-in-out h-20">
                         <h4
-                            class="text-center font-bold text-2xl mb-5 group-hover:scale-110 group-hover:translate-x-7 transition-all ease-in-out">
+                            class="text-center font-bold text-base mb-5 group-hover:scale-110 group-hover:translate-x-7 transition-all ease-in-out">
                             Paru-Paru</h4>
                     </div>
                 </div>
@@ -21,10 +21,10 @@
                 <div
                     class="bg-slate-300 p-10 rounded group shadow-md hover:bg-blue-500 hover:text-white transition-all ease-in-out">
                     <div class="grid grid-cols-2 gap-4 justify-center items-center">
-                        <img src="{{ asset('images/3d-model-icon.webp') }}" alt="anatomy 3d"
-                            class="group-hover:translate-x-7 group-hover:-translate-y-7 group-hover:rotate-6 transition-all ease-in-out">
+                        <img src="{{ asset('images/test2.png') }}" alt="anatomy 3d"
+                            class="group-hover:translate-x-7 group-hover:-translate-y-7 group-hover:rotate-6 transition-all ease-in-out h-20">
                         <h4
-                            class="text-center font-bold text-2xl mb-5 group-hover:scale-110 group-hover:translate-x-7 transition-all ease-in-out">
+                            class="text-center font-bold text-base mb-5 group-hover:scale-110 group-hover:translate-x-7 transition-all ease-in-out">
                             Ginjal</h4>
                     </div>
                 </div>
@@ -33,26 +33,22 @@
                 <div
                     class="bg-slate-300 p-10 rounded group shadow-md hover:bg-blue-500 hover:text-white transition-all ease-in-out">
                     <div class="grid grid-cols-2 gap-4 justify-center items-center">
-                        <img src="{{ asset('images/3d-model-icon.webp') }}" alt="anatomy 3d"
-                            class="group-hover:translate-x-7 group-hover:-translate-y-7 group-hover:rotate-6 transition-all ease-in-out">
+                        <img src="{{ asset('images/test2.png') }}" alt="anatomy 3d"
+                            class="group-hover:translate-x-7 group-hover:-translate-y-7 group-hover:rotate-6 transition-all ease-in-out h-20">
                         <h4
-                            class="text-center font-bold text-2xl mb-5 group-hover:scale-110 group-hover:translate-x-7 transition-all ease-in-out">
+                            class="text-center font-bold text-base mb-5 group-hover:scale-110 group-hover:translate-x-7 transition-all ease-in-out">
                             Reproduksi Wanita</h4>
                     </div>
                 </div>
             </a>
-        </div>
-
-        {{-- Menu Report Hasil --}}
-        <div class="flex flex-rows justify-center">
             <a href="{{ route('mahasiswa.test.report') }}">
                 <div
-                    class="bg-slate-300 p-10 rounded group shadow-md hover:bg-blue-500 hover:text-white transition-all ease-in-out w-96">
+                    class="bg-slate-300 p-10 rounded group shadow-md hover:bg-blue-500 hover:text-white transition-all ease-in-out">
                     <div class="grid grid-cols-2 gap-4 justify-center items-center">
-                        <img src="{{ asset('images/3d-model-icon.webp') }}" alt="video"
-                            class="group-hover:translate-x-7 group-hover:-translate-y-7 group-hover:rotate-6 transition-all ease-in-out">
+                        <img src="{{ asset('images/report.png') }}" alt="video"
+                            class="group-hover:translate-x-7 group-hover:-translate-y-7 group-hover:rotate-6 transition-all ease-in-out h-20">
                         <h4
-                            class="text-center font-bold text-2xl mb-5 group-hover:scale-110 group-hover:translate-x-7 transition-all ease-in-out">
+                            class="text-center font-bold text-base mb-5 group-hover:scale-110 group-hover:translate-x-7 transition-all ease-in-out">
                             Report Hasil</h4>
                     </div>
                 </div>

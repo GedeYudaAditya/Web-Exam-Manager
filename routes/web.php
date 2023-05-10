@@ -3,6 +3,7 @@
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,16 @@ Route::get('/', [GuestController::class, 'index'])->middleware('guest')->name('l
 Route::post('/login', [GuestController::class, 'login'])->middleware('guest')->name('login');
 Route::post('/logout', [GuestController::class, 'logout'])->middleware('auth')->name('logout');
 Route::post('/register', [GuestController::class, 'register'])->middleware('guest')->name('register');
+
+// profile
+Route::get('/profile', [ProfileController::class, 'profile'])->middleware('auth')->name('profile');
+Route::post('/profile/update', [ProfileController::class, 'profileUpdate'])->middleware('auth')->name('profile.update');
+
+// about
+Route::get('/about', [GuestController::class, 'about'])->middleware('guest')->name('about');
+
+// contact
+Route::get('/contact', [GuestController::class, 'contact'])->middleware('guest')->name('contact');
 
 Route::group(['middleware' => ['role.mahasiswa']], function () {
     Route::prefix('mahasiswa')->group(function () {

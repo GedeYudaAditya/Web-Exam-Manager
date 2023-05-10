@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nim')->nullable();
             $table->enum('status', ['aktif', 'nonaktif'])->default('nonaktif');
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('avatar')->default('default.png');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

@@ -73,7 +73,7 @@ class MahasiswaController extends Controller
         $data = [
             'title' => 'Anatomy 3D'
         ];
-        return view('mahasiswa.anatomy3d.anatomy3d', $data);
+        return view('mahasiswa.anatomy3d.index', $data);
     }
 
     /**
@@ -82,6 +82,16 @@ class MahasiswaController extends Controller
      */
     public function detailAnatomy3d($id)
     {
+        $data = [
+            'title' => 'Detail Anatomy 3D',
+        ];
+        if ($id == 'paru') {
+            return view('mahasiswa.anatomy3d.paru3d', $data);
+        } elseif ($id == 'ginjal') {
+            return view('mahasiswa.anatomy3d.ginjal3d', $data);
+        } elseif ($id == 'reproduksi') {
+            return view('mahasiswa.anatomy3d.rep3d', $data);
+        }
     }
 
     /**

@@ -85,4 +85,22 @@ class GuestController extends Controller
         auth()->logout();
         return redirect()->route('landing-page');
     }
+
+    public function about()
+    {
+        $data = [
+            'title' => 'Tentang',
+            'content' => 'Selamat datang di halaman tentang pengunjung, anda dapat login untuk mulai beraktifitas. :D'
+        ];
+        return view('about', $data);
+    }
+
+    public function contact()
+    {
+        $data = [
+            'title' => 'Kontak',
+            'content' => 'Selamat datang di halaman kontak pengunjung, anda dapat login untuk mulai beraktifitas. :D'
+        ];
+        return view('contact', $data);
+    }
 }

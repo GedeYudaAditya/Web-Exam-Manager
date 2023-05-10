@@ -6,9 +6,9 @@
             <h1 class="text-center font-bold text-4xl mb-5 sm:mb-10 sm:text-start">Anatomi Fisiologi <br> Manusia</h1>
             {{-- Button Mulai --}}
             <div class="flex flex-row justify-center sm:justify-normal">
-                <a href="/test">
+                <a href="{{ route('dosen.test') }}">
                     <button class="button">
-                        Dashboard
+                        Buat Test
                     </button>
                 </a>
             </div>

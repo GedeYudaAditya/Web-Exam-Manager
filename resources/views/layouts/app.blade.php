@@ -61,18 +61,24 @@
                         @endif
                     @else
                         <li class="link-nav {{ Route::is('about') ? 'link-nav-active' : '' }}"><a
-                                href="/">About</a></li>
+                                href="{{ route('about') }}">About</a></li>
                         <li class="link-nav {{ Route::is('contact') ? 'link-nav-active' : '' }}"><a
-                                href="/">Contact</a></li>
+                                href="{{ route('contact') }}">Contact</a></li>
                     @endif
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <li class="dropdown-nav">
-                            <img class="w-8 rounded-full avatar" src="/images/default.png" alt="Avatar">
+                            @auth
+                                <img class="w-8 rounded-full avatar h-8 object-cover object-center"
+                                    src="{{ auth()->user()->avatar != 'default.png' ? asset('/storage/avatars/' . auth()->user()->avatar) : asset('/images/' . auth()->user()->avatar) }}"
+                                    alt="Avatar">
+                            @else
+                                <img class="w-8 rounded-full avatar" src="/images/default.png" alt="Avatar">
+                            @endauth
                             <ul class="dropdown-content">
 
                                 @if (Auth::check())
-                                    <li class="dropdown-item"><a href="/profile">Profile</a></li>
+                                    <li class="dropdown-item"><a href="{{ route('profile') }}">Profile</a></li>
                                     <button type="submit" class="dropdown-item">Logout</button>
                                 @else
                                     <button type="button" target-modal="login" id="target-modal"
