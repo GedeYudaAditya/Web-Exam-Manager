@@ -21,10 +21,19 @@
                     <div class="w-full md:w-1/3 mb-4 md:mb-0">
                         <p class="text-gray-600">Pass Grade</p>
                         <h3 class="text-2xl font-bold text-gray-800">
+                            {{-- play sound effect --}}
                             @if ($report->score >= $report->test->passing_score)
                                 Lulus
+                                <audio controls autoplay style="display: none">
+                                    <source src="{{ asset('/assets/soundtrack/Congrats.mp3') }}" type="audio/ogg">
+                                    Your browser does not support the audio element.
+                                </audio>
                             @else
                                 Tidak Lulus
+                                <audio controls autoplay style="display: none">
+                                    <source src="{{ asset('/assets/soundtrack/CobaLagi.mp3') }}" type="audio/ogg">
+                                    Your browser does not support the audio element.
+                                </audio>
                             @endif
                         </h3>
                     </div>

@@ -114,7 +114,7 @@
 
 {{-- play a music automaticly --}}
 <audio controls autoplay loop style="display: none">
-    <source src="{{ asset('/assets/soundtrack/zzz.mp3') }}" type="audio/ogg">
+    <source src="{{ asset('/assets/soundtrack/MainQuiz.mp3') }}" type="audio/ogg">
     Your browser does not support the audio element.
 </audio>
 
