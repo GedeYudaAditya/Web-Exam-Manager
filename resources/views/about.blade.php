@@ -38,7 +38,11 @@
                 </p>
             </div>
             <div class="w-full lg:w-8/12">
-                <img class="w-full h-full" src="https://i.ibb.co/FhgPJt8/Rectangle-116.png" alt="A group of People" />
+                {{-- <img class="w-full h-full" src="https://i.ibb.co/FhgPJt8/Rectangle-116.png" alt="A group of People" /> --}}
+                <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_v1yudlrx.json" background="transparent"
+                    speed="1" class="w-100 px-lg-5" class="w-full h-full" loop autoplay>
+                </lottie-player>
+                <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
             </div>
         </div>
 
