@@ -45,20 +45,25 @@
                 <ul class="w-80 flex items-center flex-row justify-around text-sm font-bold">
                     <li
                         class="link-nav {{ Route::is('landing-page') || Route::is('mahasiswa.index') || Route::is('dosen.index') ? 'link-nav-active' : '' }}">
-                        <a href="/">Dashboard</a>
+                        <a href="/">Home</a>
                     </li>
                     @if (Auth::check())
                         @if (Auth::user()->role == 'mahasiswa')
-                            <li class="link-nav {{ Route::is('mahasiswa.media') ? 'link-nav-active' : '' }}"><a
+                            <li class="link-nav {{ Route::is('mahasiswa.media.*') ? 'link-nav-active' : '' }}"><a
                                     href="{{ route('mahasiswa.media') }}">Media</a></li>
-                            <li class="link-nav {{ Route::is('mahasiswa.test') ? 'link-nav-active' : '' }}"><a
+                            <li class="link-nav {{ Route::is('mahasiswa.test.*') ? 'link-nav-active' : '' }}"><a
                                     href="{{ route('mahasiswa.test') }}">Test</a></li>
                         @elseif(Auth::user()->role == 'dosen')
-                            <li class=" text-center link-nav {{ Route::is('dosen.media') ? 'link-nav-active' : '' }}"><a
-                                    href="{{ route('dosen.media') }}">M.Media</a></li>
-                            <li class=" text-center link-nav {{ Route::is('dosen.test') ? 'link-nav-active' : '' }}"><a
-                                    href="{{ route('dosen.test') }}">M.Test</a></li>
+                            <li class=" text-center link-nav {{ Route::is('dosen.media.*') ? 'link-nav-active' : '' }}">
+                                <a href="{{ route('dosen.media.home') }}">Media</a>
+                            </li>
+                            <li class=" text-center link-nav {{ Route::is('dosen.test.*') ? 'link-nav-active' : '' }}">
+                                <a href="{{ route('dosen.test') }}">Test</a>
+                            </li>
                         @endif
+                        <li class=" text-center link-nav {{ Route::is('leaderboard') ? 'link-nav-active' : '' }}">
+                            <a href="{{ route('leaderboard') }}">Leaderboard</a>
+                        </li>
                     @else
                         <li class="link-nav {{ Route::is('about') ? 'link-nav-active' : '' }}"><a
                                 href="{{ route('about') }}">About</a></li>

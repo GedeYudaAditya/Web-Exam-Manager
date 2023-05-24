@@ -23,6 +23,9 @@ Route::post('/login', [GuestController::class, 'login'])->middleware('guest')->n
 Route::post('/logout', [GuestController::class, 'logout'])->middleware('auth')->name('logout');
 Route::post('/register', [GuestController::class, 'register'])->middleware('guest')->name('register');
 
+// leaderboard
+Route::get('/leaderboard', [GuestController::class, 'leaderboard'])->middleware('auth')->name('leaderboard');
+
 // profile
 Route::get('/profile', [ProfileController::class, 'profile'])->middleware('auth')->name('profile');
 Route::post('/profile/update', [ProfileController::class, 'profileUpdate'])->middleware('auth')->name('profile.update');
@@ -95,6 +98,12 @@ Route::group(['middleware' => ['role.dosen']], function () {
             Route::get('/change-status/{video:slug}', [DosenController::class, 'ubahStatus'])->name('dosen.media.change-status');
         });
 
+        Route::prefix('manajemen-anatomy3d')->group(function () {
+            Route::get('/', [DosenController::class, 'anatomy3d'])->name('dosen.media.anatomy3d');
+        });
+
+        Route::get('/manajemen', [DosenController::class, 'manajemen'])->name('dosen.media.home');
+
         Route::prefix('manajemen-test')->group(function () {
             Route::get('/', [DosenController::class, 'test'])->name('dosen.test');
             Route::get('/report', [DosenController::class, 'report'])->name('dosen.test.report');
@@ -164,5 +173,6 @@ Route::group(['middleware' => ['role.dosen']], function () {
         });
 
         Route::get('/export', [DosenController::class, 'exportHasil'])->name('dosen.export');
+        Route::get('/export-leaderboard', [DosenController::class, 'exportLeaderboard'])->name('dosen.export.leaderboard');
     });
 });

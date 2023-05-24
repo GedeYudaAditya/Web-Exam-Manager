@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    {{-- Modal --}}
+    {{-- Modal
     <div class="modal modal-login hidden" id="login">
         <div class="modal-content">
             <div class="modal-header">
@@ -118,16 +118,35 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <script>
-        Swal.fire({
-            title: 'Selamat Datang!',
-            text: "{{ $content }}",
-            icon: 'info',
-            confirmButtonText: 'Oke'
-        })
-    </script>
+    @include('modal_auth')
+
+    @php
+        $error = $errors->all();
+    @endphp
+
+    @if ($error)
+        <script>
+            Swal.fire({
+                title: 'Gagal!',
+                html: " @foreach ($error as $item)" +
+                    "[{{ $item }}] <br>" +
+                    "@endforeach",
+                icon: 'warning',
+                confirmButtonText: 'Oke'
+            })
+        </script>
+    @else
+        <script>
+            Swal.fire({
+                title: 'Selamat Datang!',
+                text: "{{ $content }}",
+                icon: 'info',
+                confirmButtonText: 'Oke'
+            })
+        </script>
+    @endif
 
     {{-- @if (session()->has('error'))
         <script>

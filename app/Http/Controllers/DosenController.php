@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LeaderboardExport;
 use App\Models\Question;
 use App\Models\Report;
 use App\Models\Test;
@@ -38,6 +39,22 @@ class DosenController extends Controller
             'videos' => Video::all()
         ];
         return view('dosen.manajemen-media', $data);
+    }
+
+    public function manajemen()
+    {
+        $data = [
+            'title' => 'Manajemen User',
+        ];
+        return view('dosen.media', $data);
+    }
+
+    public function anatomy3d()
+    {
+        $data = [
+            'title' => 'Anatomy 3D',
+        ];
+        return view('dosen.anatomy3d.index', $data);
     }
 
     public function mediaDetail(Video $video)
@@ -142,10 +159,73 @@ class DosenController extends Controller
      */
     public function test()
     {
+        $paru = Report::select('test.name as Test Name', 'user.name as Username', 'reports.score', 'reports.created_at as Created At', 'user.nim as nim')
+            ->join('users as user', 'user.id', '=', 'reports.user_id')
+            ->join('tests as test', 'test.id', '=', 'reports.test_id')
+            ->groupBy('test.id', 'test.name', 'user.name', 'user.nim', 'reports.score', 'reports.created_at')
+            ->orderBy('test.id', 'asc')
+            ->orderBy('reports.score', 'desc')
+            ->orderBy('user.name', 'asc')
+            ->orderBy('user.nim', 'asc')
+            ->orderBy('reports.created_at', 'desc')
+            ->where('test.category', 'paru')
+            // if user have tried the test more than once, only take the best score and hide the rest
+            ->havingRaw('reports.score = max(reports.score)')
+            ->get();
+
+        $paru->transform(function ($item) {
+            $item->score = $item->score . '%';
+            return $item;
+        });
+
+        $ginjal = Report::select('test.name as Test Name', 'user.name as Username', 'reports.score', 'reports.created_at as Created At', 'user.nim as nim')
+            ->join('users as user', 'user.id', '=', 'reports.user_id')
+            ->join('tests as test', 'test.id', '=', 'reports.test_id')
+            ->groupBy('test.id', 'test.name', 'user.name', 'user.nim', 'reports.score', 'reports.created_at')
+            ->orderBy('test.id', 'asc')
+            ->orderBy('reports.score', 'desc')
+            ->orderBy('user.name', 'asc')
+            ->orderBy('user.nim', 'asc')
+            ->orderBy('reports.created_at', 'desc')
+            ->where('test.category', 'ginjal')
+            // if user have tried the test more than once, only take the best score and hide the rest
+            ->havingRaw('reports.score = max(reports.score)')
+            ->get();
+
+        $ginjal->transform(function ($item) {
+            $item->score = $item->score . '%';
+            return $item;
+        });
+
+        $reproduksi = Report::select('test.name as Test Name', 'user.name as Username', 'reports.score', 'reports.created_at as Created At', 'user.nim as nim')
+            ->join('users as user', 'user.id', '=', 'reports.user_id')
+            ->join('tests as test', 'test.id', '=', 'reports.test_id')
+            ->groupBy('test.id', 'test.name', 'user.name', 'user.nim', 'reports.score', 'reports.created_at')
+            ->orderBy('test.id', 'asc')
+            ->orderBy('reports.score', 'desc')
+            ->orderBy('user.name', 'asc')
+            ->orderBy('user.nim', 'asc')
+            ->orderBy('reports.created_at', 'desc')
+            ->where('test.category', 'reproduksi')
+            // if user have tried the test more than once, only take the best score and hide the rest
+            ->havingRaw('reports.score = max(reports.score)')
+            ->get();
+
+        $reproduksi->transform(function ($item) {
+            $item->score = $item->score . '%';
+            return $item;
+        });
+
         $data = [
             'title' => 'Manajemen Test',
-            'users' => User::all()
+            'users' => User::all(),
+            'leaderboard' => [
+                'paru' => $paru,
+                'ginjal' => $ginjal,
+                'reproduksi' => $reproduksi
+            ]
         ];
+
         return view('dosen.manajemen-test', $data);
     }
 
@@ -513,5 +593,10 @@ class DosenController extends Controller
     public function exportHasil()
     {
         return Excel::download(new ReportExport, 'hasil.xlsx');
+    }
+
+    public function exportLeaderboard(Report $report)
+    {
+        return Excel::download(new LeaderboardExport($report), 'leaderboard-detail.xlsx');
     }
 }

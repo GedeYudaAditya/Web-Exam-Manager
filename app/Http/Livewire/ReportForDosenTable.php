@@ -92,10 +92,16 @@ class ReportForDosenTable extends DataTableComponent
         return redirect()->route('dosen.export');
     }
 
+    public function leaderboard()
+    {
+        return redirect()->route('dosen.export.leaderboard');
+    }
+
     public function bulkActions(): array
     {
         return [
             'export' => 'Export',
+            'leaderboard' => 'Export Leaderboard',
         ];
     }
 }

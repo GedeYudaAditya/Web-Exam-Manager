@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Report;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -102,5 +103,77 @@ class GuestController extends Controller
             'content' => 'Selamat datang di halaman kontak pengunjung, anda dapat login untuk mulai beraktifitas. :D'
         ];
         return view('contact', $data);
+    }
+
+    public function leaderboard()
+    {
+        $paru = Report::select('test.name as Test Name', 'user.name as Username', 'reports.score', 'reports.created_at as Created At', 'user.nim as nim')
+            ->join('users as user', 'user.id', '=', 'reports.user_id')
+            ->join('tests as test', 'test.id', '=', 'reports.test_id')
+            ->groupBy('test.id', 'test.name', 'user.name', 'user.nim', 'reports.score', 'reports.created_at')
+            ->orderBy('test.id', 'asc')
+            ->orderBy('reports.score', 'desc')
+            ->orderBy('user.name', 'asc')
+            ->orderBy('user.nim', 'asc')
+            ->orderBy('reports.created_at', 'desc')
+            ->where('test.category', 'paru')
+            // if user have tried the test more than once, only take the best score and hide the rest
+            ->havingRaw('reports.score = max(reports.score)')
+            ->get();
+
+        $paru->transform(function ($item) {
+            $item->score = $item->score . '%';
+            return $item;
+        });
+
+        $ginjal = Report::select('test.name as Test Name', 'user.name as Username', 'reports.score', 'reports.created_at as Created At', 'user.nim as nim')
+            ->join('users as user', 'user.id', '=', 'reports.user_id')
+            ->join('tests as test', 'test.id', '=', 'reports.test_id')
+            ->groupBy('test.id', 'test.name', 'user.name', 'user.nim', 'reports.score', 'reports.created_at')
+            ->orderBy('test.id', 'asc')
+            ->orderBy('reports.score', 'desc')
+            ->orderBy('user.name', 'asc')
+            ->orderBy('user.nim', 'asc')
+            ->orderBy('reports.created_at', 'desc')
+            ->where('test.category', 'ginjal')
+            // if user have tried the test more than once, only take the best score and hide the rest
+            ->havingRaw('reports.score = max(reports.score)')
+            ->get();
+
+        $ginjal->transform(function ($item) {
+            $item->score = $item->score . '%';
+            return $item;
+        });
+
+        $reproduksi = Report::select('test.name as Test Name', 'user.name as Username', 'reports.score', 'reports.created_at as Created At', 'user.nim as nim')
+            ->join('users as user', 'user.id', '=', 'reports.user_id')
+            ->join('tests as test', 'test.id', '=', 'reports.test_id')
+            ->groupBy('test.id', 'test.name', 'user.name', 'user.nim', 'reports.score', 'reports.created_at')
+            ->orderBy('test.id', 'asc')
+            ->orderBy('reports.score', 'desc')
+            ->orderBy('user.name', 'asc')
+            ->orderBy('user.nim', 'asc')
+            ->orderBy('reports.created_at', 'desc')
+            ->where('test.category', 'reproduksi')
+            // if user have tried the test more than once, only take the best score and hide the rest
+            ->havingRaw('reports.score = max(reports.score)')
+            ->get();
+
+        $reproduksi->transform(function ($item) {
+            $item->score = $item->score . '%';
+            return $item;
+        });
+
+        $data = [
+            'title' => 'Kontak',
+            'content' => 'Selamat datang di halaman kontak pengunjung, anda dapat login untuk mulai beraktifitas. :D',
+            'leaderboard' => [
+                'paru' => $paru,
+                'ginjal' => $ginjal,
+                'reproduksi' => $reproduksi
+            ]
+        ];
+
+        return view('leaderboard', $data);
     }
 }
